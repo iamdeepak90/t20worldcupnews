@@ -1,8 +1,13 @@
+import Image from "next/image";
+import logo from "@/images/t20logo1.png";
+
 export default function Header(){
   return (
 <header className="site-header">
   <div className="container nav-row">
-    <a className="brand" href="index.html">MINIMAL NEWS</a>
+    <a className="brand" href="index.html">
+        <Image src={logo} alt="T20 World Cup News" width={170} />
+    </a>
     <input className="nav-toggle" type="checkbox" id="nav-toggle" />
     <label className="nav-toggle-btn" htmlFor="nav-toggle" aria-label="Toggle menu">☰</label>
     <div className="nav-right">
