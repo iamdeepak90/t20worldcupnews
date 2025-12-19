@@ -24,7 +24,7 @@ export default function RootLayout({ children }) {
             __html: `
 :root{
   --bg:#fff;
-  --bg-soft:#f5f5f5;
+  --bg-soft:#f9f9f9;
   --text:#111;
   --muted:#6b7280;
   --border:#e5e7eb;

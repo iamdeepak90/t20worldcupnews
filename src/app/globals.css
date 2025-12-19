@@ -75,7 +75,7 @@
   color:#111;
 }
 .btn-outline:hover{background:#111;color:#fff}
-
+.mb-1{margin-bottom: 1rem;}
 .grid-3{
   display:grid;
   grid-template-columns:repeat(3, 1fr);
