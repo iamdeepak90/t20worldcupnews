@@ -1,5 +1,6 @@
 import { Noticia_Text } from "next/font/google";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import "./globals.css";
 
 const noticia = Noticia_Text({
@@ -136,6 +137,7 @@ main{padding:22px 0}
       <body className={`antialiased`}>
         <Header />
         {children}
+        <Footer />
       </body>
     </html>
   );
