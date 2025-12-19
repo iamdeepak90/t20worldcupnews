@@ -1,0 +1,225 @@
+/* Non-critical CSS (loaded from file) */
+.hero{
+  background:linear-gradient(180deg,#fafafa,#fff);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  overflow:hidden;
+  margin-top: 1rem;
+}
+.hero-grid{
+  display:grid;
+  grid-template-columns: 1.1fr .9fr;
+  gap:0;
+  align-items:stretch;
+}
+.hero-copy{padding:22px}
+.hero-media img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  filter:grayscale(100%);
+  display:block;
+}
+.section-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  gap:12px;
+  margin:18px 0 10px;
+}
+.section-title{
+  margin:0;
+  font-size:1.15rem;
+  font-weight:700;
+  letter-spacing:.25px;
+}
+.small-link{
+  color:var(--muted);
+}
+.small-link:hover{color:var(--text)}
+.meta{
+  color:var(--muted);
+  font-size:.95rem;
+}
+.badge{
+  display:inline-block;
+  font-size:.85rem;
+  font-weight:700;
+  padding:5px 8px;
+  border:1px solid var(--border);
+  background:var(--bg-soft);
+  border-radius:var(--radius);
+}
+.card{
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  background:#fff;
+}
+.card-hover:hover{
+  box-shadow:0 10px 22px rgba(0,0,0,.07);
+  transform:translateY(-1px);
+  transition:160ms ease;
+}
+.btn{
+  display:inline-block;
+  border-radius:var(--radius);
+  padding:10px 14px;
+  border:1px solid #111;
+  cursor:pointer;
+  font-weight:700;
+  background:#111;
+  color:#fff;
+}
+.btn:hover{background:#1a1a1a}
+.btn-outline{
+  background:transparent;
+  color:#111;
+}
+.btn-outline:hover{background:#111;color:#fff}
+
+.grid-3{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:12px;
+}
+.category-card{padding:12px}
+.thumb{
+  width:100%;
+  height:140px;
+  object-fit:cover;
+  filter:grayscale(100%);
+  border-radius:var(--radius);
+  border:1px solid var(--border);
+  display:block;
+  margin-bottom:10px;
+}
+
+.latest-grid{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:12px;
+}
+.latest-card{padding:14px}
+
+.hr{
+  border:none;
+  border-top:1px solid var(--border);
+  margin:14px 0;
+}
+
+/* Layout: content + sidebar */
+.layout{
+  display:grid;
+  grid-template-columns: 1fr 340px;
+  gap:18px;
+  align-items:start;
+}
+.sidebar-box{
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:14px;
+  background:#fff;
+}
+.sidebar-box h3{
+  margin:0 0 10px;
+  font-size:1rem;
+}
+.sidebar-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.recent-item{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  margin-bottom:12px;
+}
+.recent-item:last-child{margin-bottom:0}
+.recent-item img{
+  width:72px;height:56px;
+  object-fit:cover;
+  filter:grayscale(100%);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+}
+.recent-item .title{font-weight:700}
+
+/* Listing card: image 40%, content 60% */
+.post-card{
+  padding:12px;
+}
+.post-row{
+  display:flex;
+  gap:12px;
+  align-items:center;
+}
+.post-media{flex:0 0 40%}
+.post-body{flex:1 1 60%}
+.post-media img{
+  width:100%;
+  height:160px;
+  object-fit:cover;
+  filter:grayscale(100%);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  display:block;
+}
+.post-title{
+  margin:8px 0 6px;
+  font-size:1.1rem;
+  font-weight:700;
+}
+.post-excerpt{margin:0 0 6px}
+
+/* Post page */
+.post-hero{
+  width:100%;
+  max-height:420px;
+  object-fit:cover;
+  filter:grayscale(100%);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  display:block;
+}
+.article-card{padding:18px}
+blockquote{
+  margin:14px 0;
+  padding:12px;
+  border-radius:var(--radius);
+  background:var(--bg-soft);
+  border:1px solid var(--border);
+}
+
+/* Footer */
+.site-footer{
+  background:#0b0b0b;
+  color:#f3f4f6;
+  margin-top:30px;
+}
+.footer-row{
+  display:flex;
+  gap:14px;
+  justify-content:space-between;
+  align-items:center;
+  padding:16px 0 !important;
+  flex-wrap:wrap;
+}
+.footer-links{display:flex;gap:12px;flex-wrap:wrap}
+.site-footer a{color:#f3f4f6}
+.site-footer a:hover{color:#d1d5db;text-decoration:underline}
+
+/* Responsive layout (custom CSS only) */
+@media (max-width: 980px){
+  .layout{grid-template-columns: 1fr 300px}
+  .grid-3, .latest-grid{grid-template-columns:repeat(2, 1fr)}
+  .hero-grid{grid-template-columns:1fr}
+}
+@media (max-width: 760px){
+  .layout{grid-template-columns:1fr}
+  .grid-3, .latest-grid{grid-template-columns:1fr}
+  .hero-copy{padding:16px}
+  .post-row{flex-direction:column; align-items:stretch}
+  .post-media{flex:1 1 auto}
+  .post-media img{height:200px}
+}
