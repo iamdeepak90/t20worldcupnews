@@ -23,11 +23,11 @@ console.log(posts);
         </div>
       </div>
       <div className="hero-media">
-        <Image src={posts[0].coverImage.url} width={500} height={350} alt="cricket" />
+        <Image src={posts[0].coverImage.url} width={500} height={350} alt="cricket" priority />
       </div>
     </div>
   </section>
-  
+
   <div className="section-head">
     <h2 className="section-title">Top Categories</h2>
     <a className="small-link" href="listing.html">View all</a>
