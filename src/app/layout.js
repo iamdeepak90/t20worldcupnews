@@ -1,7 +1,6 @@
 import { Noticia_Text } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import "./globals.css";
 
 const noticia = Noticia_Text({
   subsets: ["latin"],

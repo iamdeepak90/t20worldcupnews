@@ -4,9 +4,8 @@ import { getLatestPosts } from "@/lib/posts";
 
 export default async function Home() {
 const posts = await getLatestPosts(3);
-console.log(posts);
 
-  return (
+return (
 <>
 <main className="container">
   <section className="hero">
@@ -23,7 +22,14 @@ console.log(posts);
         </div>
       </div>
       <div className="hero-media">
-        <Image src={posts[0].coverImage.url} width={500} height={350} alt="cricket" priority />
+        <Image
+          src={posts[0].coverImage.url} 
+          width={500}
+          height={350}
+          alt="cricket"
+          priority
+          fetchPriority="high"
+        />
       </div>
     </div>
   </section>
@@ -35,7 +41,7 @@ console.log(posts);
   <section className="grid-3">
 
     {posts.map((post) => (
-      <a className="card card-hover category-card" href="#">
+      <a key={post.slug} className="card card-hover category-card" href="#">
         <Image src={post.coverImage.url} width={350} height={220} alt="cricket" className="thumb" />
         <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '10px', marginBottom: '6px'}}>
           {post.categories.map((cat) => (
