@@ -6,7 +6,7 @@ export default function Header(){
 <header className="site-header">
   <div className="container nav-row">
     <a className="brand" href="index.html">
-        <Image src={logo} alt="T20 World Cup News" width={170} />
+        <Image src={logo} alt="T20 World Cup News" width={180} />
     </a>
     <input className="nav-toggle" type="checkbox" id="nav-toggle" />
     <label className="nav-toggle-btn" htmlFor="nav-toggle" aria-label="Toggle menu">☰</label>
