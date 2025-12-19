@@ -38,7 +38,7 @@ export default function Home() {
       <div className="meta">Global coverage with a calm, readable layout.</div>
     </a>
     <a className="card card-hover category-card" href="listing.html#category=tech">
-      <img className="thumb" src="https://picsum.photos/seed/tech/900/600" alt="Tech" />
+      <Image src={cricket} alt="cricket" className="thumb" />
       <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '10px', marginBottom: '6px'}}>
         <span className="badge">Tech</span><span className="meta">9 posts</span>
       </div>
@@ -46,7 +46,7 @@ export default function Home() {
       <div className="meta">Clean cards, clear typography, no distractions.</div>
     </a>
     <a className="card card-hover category-card" href="listing.html#category=business">
-      <img className="thumb" src="https://picsum.photos/seed/business/900/600" alt="Business" />
+      <Image src={cricket} alt="cricket" className="thumb" />
       <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '10px', marginBottom: '6px'}}>
         <span className="badge">Business</span><span className="meta">7 posts</span>
       </div>
