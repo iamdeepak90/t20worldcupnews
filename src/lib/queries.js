@@ -140,3 +140,73 @@ export async function GetAllCategory(options = {}) {
   const data = await fetchHygraph(ALL_CATEGORY_QUERY, {}, options);
   return data.categories || [];
 }
+
+
+
+const SEARCH_POSTS_QUERY = `
+  query SearchPosts($searchTerm: String!) {
+    posts(
+      where: {
+        _search: $searchTerm
+      }
+      first: 20
+    ) {
+      id
+      title
+      slug
+      excerpt
+      date
+      coverImage {
+        url
+        altText
+      }
+      author {
+        name
+      }
+      categories {
+        name
+        slug
+      }
+    }
+  }
+`;
+
+export async function searchPosts(searchTerm, options = {}) {
+  if (!searchTerm || searchTerm.trim().length < 2) {
+    return [];
+  }
+
+  const data = await fetchHygraph(
+    SEARCH_POSTS_QUERY,
+    { searchTerm: searchTerm.trim() },
+    options
+  );
+  
+  return data.posts || [];
+}
+
+
+
+
+// Get single page by slug
+const PAGE_BY_SLUG_QUERY = `
+  query GetPage($slug: String!) {
+    page(where: { slug: $slug }) {
+      id
+      title
+      content {
+        html
+      }
+    }
+  }
+`;
+
+export async function getPageBySlug(slug, options = {}) {
+  const data = await fetchHygraph(
+    PAGE_BY_SLUG_QUERY,
+    { slug },
+    options
+  );
+
+  return data.page;
+}

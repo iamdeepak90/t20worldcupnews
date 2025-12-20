@@ -1,10 +1,21 @@
 import Image from "next/image";
-import { getLatestPosts } from "@/lib/queries";
+import { getLatestPosts, getPageBySlug } from "@/lib/queries";
 import { formatDate } from "@/lib/utils";
 import Link from "next/link";
+import { buildMetadata } from "@/lib/seo";
+import homeimg from "@/images/icc-t20-world-cup-2026-live.webp";
+
+export const metadata = buildMetadata({
+  title: "ICC T20 World Cup 2026 Live Score Updates, Highlights & Latest News",
+  description: "Stay updated with the latest news, fixtures, and highlights of the ICC T20 World Cup 2026. Get all the essential information and stay ahead in the tournament countdown!",
+  url: "https://t20worldcupnews.com",
+  image: homeimg.src,
+});
 
 export default async function Home() {
-const posts = await getLatestPosts(3);
+  const posts = await getLatestPosts(3);
+  const page = await getPageBySlug('home');
+
 return (
 <>
 <main className="container">
@@ -35,8 +46,7 @@ return (
   </section>
 
   <div className="section-head">
-    <h3 className="section-title">Top Categories</h3>
-    <a className="small-link" href="listing.html">View all</a>
+    <h3 className="section-title">Recent Posts</h3>
   </div>
   <section className="grid-3 mb-1">
 
@@ -57,71 +67,9 @@ return (
 
 
     <div className="card article-card">
-      <h1>T20 World Cup 2026 Schedules are available now</h1>
-  <p
-    style={{
-      fontSize: "1.15rem",
-      marginTop: "0",
-    }}>
-    This is a clean post page using black, white, and grey tones with Noticia
-    Text and fully custom CSS.
-  </p>
-  <p>
-    Keep paragraphs short and readable. Use consistent spacing and avoid strong
-    colors so the content remains the focus. Add images sparingly and prefer
-    neutral contrast.
-  </p>
-  <h2
-    style={{
-      fontSize: "1.2rem",
-      margin: "16px 0 8px",
-    }}>
-    Subheading
-  </h2>
-  <p>
-    You can structure the article with a few subheads, quotes, or bullet lists.
-    The sidebar stays calm: search, categories, and recent posts.
-  </p>
-  <blockquote>
-    <p
-      style={{
-        margin: "0",
-      }}>
-      “Minimalism isn’t empty—it’s deliberate.”
-    </p>
-  </blockquote>
-  <h3
-    style={{
-      fontSize: "1.05rem",
-      margin: "16px 0 8px",
-    }}>
-    Quick points
-  </h3>
-  <ul
-    style={{
-      margin: "0",
-      paddingLeft: "18px",
-    }}>
-    <li>Custom CSS only (no Bootstrap)</li>
-    <li>Inline critical CSS for above-the-fold</li>
-    <li>Small radius (3–4px) and neutral palette</li>
-  </ul>
-  <p
-    style={{
-      fontSize: "1.15rem",
-      marginTop: "0",
-    }}>
-    This is a clean post page using black, white, and grey tones with Noticia
-    Text and fully custom CSS.
-  </p>
-  <p>
-    Keep paragraphs short and readable. Use consistent spacing and avoid strong
-    colors so the content remains the focus. Add images sparingly and prefer
-    neutral contrast.
-  </p>
-</div>
-
-
+      <h1>{page.title}</h1>
+      <div dangerouslySetInnerHTML={{ __html: page.content.html }}/>
+    </div>
 
 </main>
 </>

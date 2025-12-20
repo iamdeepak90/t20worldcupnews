@@ -19,7 +19,7 @@ export default async function Header(){
             <Link key={cat.id} className="nav-link" href={`/category/${cat.slug}`}>{cat.name}</Link>
         ))}
       </nav>
-      <form className="nav-search" action="listing.html" method="get" role="search">
+      <form className="nav-search" action="search" method="get" role="search">
         <input type="search" name="q" placeholder="Search news..." aria-label="Search news" />
         <button type="submit">Search</button>
       </form>

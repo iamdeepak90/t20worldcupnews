@@ -1,14 +1,13 @@
 import Sidebar from '@/components/Sidebar';
-import { getPostsByCategory } from '@/lib/queries';
+import { searchPosts } from '@/lib/queries';
 import { formatDate } from '@/lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
 
-export default async function CategoryPage({ params }) {
-  const resolvedParams = await params;
-  const posts = await getPostsByCategory(resolvedParams.slug, 20, {
-    next: { revalidate: 3600 }
-  });
+export default async function SearchPage({ searchParams }) {
+  const resolvedParams = await searchParams;
+  const searchQuery = resolvedParams?.q || '';
+  const posts = searchQuery ? await searchPosts(searchQuery) : [];
 
   return (
 <main className="container">
@@ -28,7 +27,7 @@ export default async function CategoryPage({ params }) {
             letterSpacing: ".25px",
             margin: "0",
           }}>
-          Category: {resolvedParams.slug.replace(/-/g, ' ').toUpperCase()}
+          Search results for: {searchQuery}
         </h1>
       </div>
       
