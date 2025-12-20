@@ -7,23 +7,13 @@ export default async function Sidebar(){
   const cats = await GetAllCategory();
   return (
 <aside>
-  <div
-    className="sidebar-box"
-    style={{
-      marginBottom: "12px",
-    }}
-  >
+  <div className="sidebar-box">
     <h3>Categories</h3>
     <div className="sidebar-tags">
       {cats.map((cat) => (
         <Link key={cat.id} className="badge" href={`/category/${cat.slug}`}>{cat.name}</Link>
       ))}
     </div>
-  </div>
-  <div className="sidebar-box" style={{
-      marginBottom: "12px",
-    }}>
-    <Image src={ad300x600} alt="AD Code" />
   </div>
   <div className="sidebar-box">
     <h3>Recent</h3>
@@ -58,6 +48,10 @@ export default async function Sidebar(){
         <div className="title">Minimal layout, readable</div>
       </div>
     </a>
+  </div>
+
+  <div className="sidebar-box">
+    <Image src={ad300x600} alt="AD Code" />
   </div>
 </aside>
   )

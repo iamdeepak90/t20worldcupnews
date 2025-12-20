@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { getPostBySlug, getAllPostSlugs, getLatestPosts } from "@/lib/queries";
 import { formatDate, readTime } from "@/lib/utils";
+import { generateBlogPostSchema, SchemaScript } from "@/lib/schema";
 import Image from "next/image";
 import Link from "next/link";
 import Sidebar from "@/components/Sidebar";
@@ -36,9 +37,14 @@ export default async function BlogPost({ params }) {
 
   if (!post) notFound();
 
+  const schemas = generateBlogPostSchema(post);
+
   const posts = await getLatestPosts(3);
 
   return (
+<>
+    <SchemaScript schema={schemas} />
+
     <main className="container">
       <div className="layout">
         <article>
@@ -104,5 +110,6 @@ export default async function BlogPost({ params }) {
         <Sidebar />
       </div>
     </main>
+</>
   );
 }

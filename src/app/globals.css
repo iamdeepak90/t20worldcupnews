@@ -73,6 +73,7 @@
   border-radius:var(--radius);
   padding:14px;
   background:#fff;
+  margin-bottom: 12px;
 }
 .sidebar-box h3{
   margin:0 0 10px;
