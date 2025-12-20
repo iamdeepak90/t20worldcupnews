@@ -1,11 +1,10 @@
 import Image from "next/image";
-import { getLatestPosts } from "@/lib/posts";
+import { getLatestPosts } from "@/lib/queries";
 import { formatDate } from "@/lib/utils";
 import Link from "next/link";
 
 export default async function Home() {
 const posts = await getLatestPosts(3);
-console.log(posts);
 return (
 <>
 <main className="container">
@@ -19,7 +18,7 @@ return (
         <p className="meta" style={{margin: '0 0 12px'}}>By {posts[0].author.name} | {formatDate(posts[0].date)}</p>
         <p style={{margin: '0 0 14px'}}>{posts[0].excerpt}</p>
         <div style={{display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
-          <Link href={`/${posts[0].slug}`} className="btn">Read full News ↗</Link>
+          <Link href={`/${posts[0].slug}`} className="btn">Read more ↗</Link>
         </div>
       </div>
       <div className="hero-media">
@@ -42,7 +41,7 @@ return (
   <section className="grid-3 mb-1">
 
     {posts.map((post) => (
-      <a key={post.slug} className="card card-hover category-card" href="#">
+      <Link key={post.slug} className="card card-hover category-card" href={`/${post.slug}`}>
         <Image src={post.coverImage.url} width={350} height={220} alt="cricket" className="thumb" />
         <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '10px', marginBottom: '6px'}}>
           {post.categories.map((cat) => (
@@ -51,7 +50,7 @@ return (
           <span className="meta">{formatDate(post.date)}</span>
         </div>
         <div style={{fontWeight: 700, marginBottom: '4px'}}>{post.title}</div>
-      </a>
+      </Link>
     ))}
 
   </section>

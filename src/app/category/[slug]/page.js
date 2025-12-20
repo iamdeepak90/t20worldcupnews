@@ -1,4 +1,8 @@
-import { getPostsByCategory } from '@/lib/posts';
+import Sidebar from '@/components/Sidebar';
+import { getPostsByCategory } from '@/lib/queries';
+import { formatDate } from '@/lib/utils';
+import Image from 'next/image';
+import Link from 'next/link';
 
 export default async function CategoryPage({ params }) {
   const resolvedParams = await params;
@@ -6,33 +10,64 @@ export default async function CategoryPage({ params }) {
     next: { revalidate: 3600 }
   });
 
+  console.log(posts);
+
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold mb-8">Category: {resolvedParams.slug}</h1>
-      
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {posts.map((post) => (
-          <a 
-            key={post.id} 
-            href={`/${post.slug}`}
-            className="block group"
-          >
-            {post.coverImage && (
-              <img 
-                src={post.coverImage.url} 
-                alt={post.coverImage.altText || post.title}
-                className="w-full h-48 object-cover rounded-lg mb-4"
-              />
-            )}
-            <h2 className="text-xl font-semibold group-hover:text-blue-600">
-              {post.title}
-            </h2>
-            {post.excerpt && (
-              <p className="text-gray-600 mt-2">{post.excerpt}</p>
-            )}
-          </a>
-        ))}
+<main className="container">
+  <div className="layout">
+    <section>
+      <div
+        style={{
+          alignItems: "baseline",
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "12px",
+          justifyContent: "space-between",
+        }}>
+        <h1
+          style={{
+            fontSize: "1.7rem",
+            letterSpacing: ".25px",
+            margin: "0",
+          }}>
+          Category: {resolvedParams.slug.replace(/-/g, ' ').toUpperCase()}
+        </h1>
       </div>
-    </div>
+      
+      {posts.map((post) => (
+      <article key={post.id} className="card card-hover post-card">
+        <div className="post-row">
+          <div className="post-media">
+            <Image src={post.coverImage.url} width={300} height={240} alt="cricket"/>
+          </div>
+          <div className="post-body">
+            <div
+              style={{
+                alignItems: "center",
+                display: "flex",
+                flexWrap: "wrap",
+                gap: "10px",
+                justifyContent: "space-between",
+              }}>
+              {post.categories.map((cat) => (
+                <span key={cat.name} className="badge">{cat.name}</span>
+              ))}
+              <span className="meta">{formatDate(post.date)}</span>
+            </div>
+            <div className="post-title">
+              <Link href={`/${post.slug}`}>{post.title}</Link>
+            </div>
+            <p className="meta post-excerpt">{post.excerpt}</p>
+            <Link href={`/${post.slug}`} className="small-link">Read more →</Link>
+          </div>
+        </div>
+      </article>
+
+      ))}
+    </section>
+
+    <Sidebar />
+  </div>
+</main>
   );
 }

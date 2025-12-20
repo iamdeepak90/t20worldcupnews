@@ -51,6 +51,7 @@ a:hover{text-decoration:underline;}
 .site-header{
   background:#0b0b0b;
   color:#f3f4f6;
+  margin-bottom:1rem;
 }
 .nav-row{
   display:flex;

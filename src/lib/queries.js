@@ -57,7 +57,7 @@ const POST_BY_SLUG_QUERY = `
         name
         slug
       }
-      publishedAt
+      date
     }
   }
 `;
@@ -84,7 +84,7 @@ const POSTS_BY_CATEGORY_QUERY = `
       title
       slug
       excerpt
-      publishedAt
+      date
       coverImage {
         url
         altText
@@ -122,4 +122,21 @@ const ALL_POST_SLUGS_QUERY = `
 export async function getAllPostSlugs(options = {}) {
   const data = await fetchHygraph(ALL_POST_SLUGS_QUERY, {}, options);
   return data.posts || [];
+}
+
+
+// Get all Categories
+const ALL_CATEGORY_QUERY = `
+  query GetAllCategory {
+    categories {
+      id
+      name
+      slug
+    }
+  }
+`;
+
+export async function GetAllCategory(options = {}) {
+  const data = await fetchHygraph(ALL_CATEGORY_QUERY, {}, options);
+  return data.categories || [];
 }
