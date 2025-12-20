@@ -62,7 +62,7 @@
 .btn{
   display:inline-block;
   border-radius:var(--radius);
-  padding:10px 14px;
+  padding:8px 16px;
   border:1px solid #111;
   cursor:pointer;
   font-weight:700;

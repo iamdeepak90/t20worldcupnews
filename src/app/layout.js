@@ -24,7 +24,7 @@ export default function RootLayout({ children }) {
             __html: `
 :root{
   --bg:#fff;
-  --bg-soft:#f9f9f9;
+  --bg-soft:#eee;
   --text:#111;
   --muted:#6b7280;
   --border:#e5e7eb;
@@ -36,12 +36,12 @@ html,body{height:100%}
 body{
   margin:0;
   font-family:"Noticia Text", serif;
-  background:var(--bg-soft);
+  background:#f7f7f7;
   color:var(--text);
   line-height:1.55;
 }
 a{color:inherit;text-decoration:none}
-a:hover{text-decoration:underline;color:#4b5563}
+a:hover{text-decoration:underline;}
 .container{
   width:100%;
   max-width:var(--max);
@@ -56,7 +56,7 @@ a:hover{text-decoration:underline;color:#4b5563}
   display:flex;
   align-items:center;
   gap:14px;
-  padding:12px 16px;
+  padding:8px 16px;
   flex-wrap:wrap;
 }
 .brand{

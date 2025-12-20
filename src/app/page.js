@@ -1,10 +1,11 @@
 import Image from "next/image";
-import cricket from "@/images/cricket.webp";
 import { getLatestPosts } from "@/lib/posts";
+import { formatDate } from "@/lib/utils";
+import Link from "next/link";
 
 export default async function Home() {
 const posts = await getLatestPosts(3);
-
+console.log(posts);
 return (
 <>
 <main className="container">
@@ -15,10 +16,10 @@ return (
           <span key={cat.name} className="badge">{cat.name}</span>
         ))}
         <h2 style={{margin: '10px 0 8px', fontSize: '2rem', lineHeight: '1.15'}}>{posts[0].title}</h2>
-        <p className="meta" style={{margin: '0 0 12px'}}>By Editorial Desk · Dec 19, 2025 · 6 min read</p>
+        <p className="meta" style={{margin: '0 0 12px'}}>By {posts[0].author.name} | {formatDate(posts[0].date)}</p>
         <p style={{margin: '0 0 14px'}}>{posts[0].excerpt}</p>
         <div style={{display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
-          <a className="btn" href="post.html">Read this News ↗</a>
+          <Link href={`/${posts[0].slug}`} className="btn">Read full News ↗</Link>
         </div>
       </div>
       <div className="hero-media">
@@ -47,7 +48,7 @@ return (
           {post.categories.map((cat) => (
             <span key={cat.name} className="badge">{cat.name}</span>
           ))}
-          <span className="meta">Dec 17, 2025</span>
+          <span className="meta">{formatDate(post.date)}</span>
         </div>
         <div style={{fontWeight: 700, marginBottom: '4px'}}>{post.title}</div>
       </a>

@@ -7,7 +7,7 @@ export async function fetchHygraph(query, variables = {}, options = {}) {
     },
     body: JSON.stringify({ query, variables }),
     next: {
-      revalidate: options.revalidate ?? 60,
+      revalidate: options.revalidate ?? 3600,
     },
   });
 
