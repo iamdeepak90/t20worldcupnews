@@ -64,10 +64,14 @@ export default async function BlogPost({ params }) {
           </p>
 
           {post.coverImage && (
-            <img
+            <Image
               src={post.coverImage.url}
               alt={post.coverImage.alt || post.title}
               className="post-hero"
+              width={750}
+              height={400}
+              placeholder="blur"
+              blurDataURL={`/_next/image?url=${post.coverImage.url}&w=16&q=1`}
             />
           )}
 
