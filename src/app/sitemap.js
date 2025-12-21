@@ -1,15 +1,13 @@
 import { getAllPostSlugs } from '@/lib/queries';
 
-const SITE_URL = 'https://t20worldcupnews.com';
-
 export default async function sitemap() {
-  // Fetch all post slugs from Hygraph
   const posts = await getAllPostSlugs();
+  const SITE_URL = 'https://t20worldcupnews.com';
 
   // Generate sitemap entries for blog posts
   const postEntries = posts.map((post) => ({
     url: `${SITE_URL}/${post.slug}`,
-    lastModified: post.updatedAt ? new Date(post.updatedAt) : new Date(),
+    lastModified: new Date().toISOString(),
     changeFrequency: 'daily',
     priority: 0.8,
   }));
@@ -38,3 +36,5 @@ export default async function sitemap() {
 
   return [...staticPages, ...postEntries];
 }
+
+export const revalidate = 3600;
