@@ -43,6 +43,9 @@
   margin: 14px 0;
 }
 
+h1{font-size: 2rem;}
+p{font-size: 1rem;}
+
 /* Home grids */
 .grid-3 {
   display: grid;
@@ -67,7 +70,7 @@
 /* Media */
 .thumb {
   width: 100%;
-  height: 190px;
+  height: 220px;
   object-fit: cover;
   border-radius: var(--radius);
   border: 1px solid var(--border);
@@ -216,6 +219,10 @@
 
 .article-card table thead {
   background-color: rgb(228, 228, 228);
+}
+.article-card a {
+    text-decoration: underline;
+    color: #000;
 }
 
 blockquote {
