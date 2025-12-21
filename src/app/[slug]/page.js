@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { getPostBySlug, getAllPostSlugs, getRelatedPosts } from "@/lib/queries";
 import { formatDate, readTime } from "@/lib/utils";
+import { buildMetadata } from "@/lib/seo";
 import { generateBlogPostSchema, SchemaScript } from "@/lib/schema";
 import RelatedPosts from "@/components/RelatedPosts";
 import Image from "next/image";
@@ -11,22 +12,18 @@ export async function generateStaticParams() {
   return posts.map((post) => ({ slug: post.slug }));
 }
 
+
 export async function generateMetadata({ params }) {
   const resolvedParams = await params;
   const post = await getPostBySlug(resolvedParams.slug);
 
-  if (!post) {
-    return { title: "Post Not Found" };
-  }
-
-  return {
-    title: post.title,
-    description: post.excerpt,
-    openGraph: {
+  return buildMetadata({
       title: post.title,
-      images: post.coverImage ? [post.coverImage.url] : [],
-    },
-  };
+      description: post.excerpt,
+      url: `https://t20worldcupnews.com/${resolvedParams.slug}`,
+      image: post.coverImage.url
+  });
+  
 }
 
 export default async function BlogPost({ params }) {

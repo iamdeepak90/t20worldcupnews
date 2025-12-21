@@ -83,6 +83,16 @@
   align-items: start;
 }
 
+.pages {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.pages h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
 .layout>aside {
   align-self: stretch;
 }
