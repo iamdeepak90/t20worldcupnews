@@ -131,8 +131,8 @@ p{font-size: 1rem;}
 }
 
 .recent-item img {
-  width: 72px;
-  height: 56px;
+  width: 78px;
+  height: 90px;
   object-fit: cover;
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -204,6 +204,7 @@ p{font-size: 1rem;}
   max-width: 600px;
   height: auto;
   margin: 0 auto;
+  width: 100%;
 }
 
 .article-card table {
