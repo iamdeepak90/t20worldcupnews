@@ -1,9 +1,9 @@
 import { notFound } from "next/navigation";
-import { getPostBySlug, getAllPostSlugs, getLatestPosts } from "@/lib/queries";
+import { getPostBySlug, getAllPostSlugs, getRelatedPosts } from "@/lib/queries";
 import { formatDate, readTime } from "@/lib/utils";
 import { generateBlogPostSchema, SchemaScript } from "@/lib/schema";
+import RelatedPosts from "@/components/RelatedPosts";
 import Image from "next/image";
-import Link from "next/link";
 import Sidebar from "@/components/Sidebar";
 
 export async function generateStaticParams() {
@@ -39,7 +39,15 @@ export default async function BlogPost({ params }) {
 
   const schemas = generateBlogPostSchema(post);
 
-  const posts = await getLatestPosts(3);
+  const categorySlugs = post.categories.map(cat => cat.slug);
+  const rposts = await getRelatedPosts(
+    post.slug,
+    categorySlugs,
+    3,
+    { next: { revalidate: 3600 } }
+  );
+
+  console.log(rposts);
 
   return (
 <>
@@ -81,34 +89,7 @@ export default async function BlogPost({ params }) {
             className="card article-card"
             dangerouslySetInnerHTML={{ __html: post.content.html }}
           />
-
-          <div className="section-head">
-            <h3 className="section-title">Related Posts</h3>
-          </div>
-
-          <section className="grid-3 mb-1">
-            {posts.map((p) => (
-              <Link
-                key={p.slug}
-                className="card card-hover category-card"
-                href={`/${p.slug}`}
-              >
-                <Image
-                  src={p.coverImage.url}
-                  width={350}
-                  height={220}
-                  alt="cricket"
-                  className="thumb"
-                />
-
-                <div className="row-end card-topline">
-                  <span className="meta">{formatDate(p.date)}</span>
-                </div>
-
-                <div className="card-title">{p.title}</div>
-              </Link>
-            ))}
-          </section>
+          <RelatedPosts rposts={rposts} />
         </article>
 
         <Sidebar />

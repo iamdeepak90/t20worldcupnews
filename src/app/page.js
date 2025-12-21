@@ -16,9 +16,9 @@ export const metadata = buildMetadata({
 });
 
 export default async function Home() {
-  const posts = await getLatestPosts(3);
+  const posts = await getLatestPosts(7);
   const page = await getPageBySlug("home");
-  const schemas = generateHomepageSchema();
+  const schemas = generateHomepageSchema(page.content.html);
   return (
 <>
 <SchemaScript schema={schemas} />
@@ -66,7 +66,7 @@ export default async function Home() {
       </div>
 
       <section className="grid-3 mb-1">
-        {posts.map((post) => (
+        {posts.slice(1).map((post) => (
           <Link
             key={post.slug}
             className="card card-hover category-card"

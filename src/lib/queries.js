@@ -182,7 +182,7 @@ export async function searchPosts(searchTerm, options = {}) {
     { searchTerm: searchTerm.trim() },
     options
   );
-  
+
   return data.posts || [];
 }
 
@@ -210,4 +210,37 @@ export async function getPageBySlug(slug, options = {}) {
   );
 
   return data.page;
+}
+
+
+
+const RELATED_POSTS_QUERY = `
+  query GetRelatedPostsMulti($slug: String!, $categorySlugs: [String!]!, $limit: Int!) {
+    posts(
+      where: {
+        slug_not: $slug
+        categories_some: { slug_in: $categorySlugs }
+      }
+      orderBy: publishedAt_DESC
+      first: $limit
+    ) {
+      id
+      title
+      slug
+      coverImage {
+        url
+        altText
+      }
+    }
+  }
+`;
+
+export async function getRelatedPosts(currentSlug, categorySlugs, limit = 3, options = {}) {
+  const data = await fetchHygraph(
+    RELATED_POSTS_QUERY,
+    { slug: currentSlug, categorySlugs, limit },
+    options
+  );
+
+  return data.posts || [];
 }

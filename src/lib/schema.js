@@ -266,7 +266,7 @@ export function generateBlogPostSchema(post) {
 /**
  * Generate Combined Schema for Homepage
  */
-export function generateHomepageSchema() {
+export function generateHomepageSchema(html) {
   const schemas = [];
 
   // Website Schema
@@ -276,6 +276,10 @@ export function generateHomepageSchema() {
   // Organization Schema
   const orgSchema = generateOrganizationSchema();
   if (orgSchema) schemas.push(orgSchema);
+
+  const faqs = extractFAQFromHTML(html);
+  const faqSchema = generateFAQSchema(faqs);
+  if (faqSchema) schemas.push(faqSchema);
 
   return schemas;
 }
