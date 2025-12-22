@@ -6,6 +6,7 @@ const LATEST_POSTS_QUERY = `
       orderBy: publishedAt_DESC
       first: $limit
     ) {
+      id
       title
       slug
       excerpt
@@ -66,6 +67,42 @@ export async function getPostBySlug(slug, options = {}) {
   const data = await fetchHygraph(
     POST_BY_SLUG_QUERY,
     { slug },
+    options
+  );
+
+  return data.post;
+}
+
+
+// Get single post by slug
+const FEATURED_POST_QUERY = `
+  query FeaturedPost {
+    post(
+      where: { featured: 1 }
+      first: 1
+    ) {
+      id
+      title
+      slug
+      excerpt
+      date
+      coverImage {
+        url
+        altText
+      }
+      categories{
+        name
+      }
+      author{
+        name
+      }
+    }
+  }
+`;
+
+export async function getFeaturedPost(options = {}) {
+  const data = await fetchHygraph(
+    FEATURED_POST_QUERY,
     options
   );
 
