@@ -74,11 +74,11 @@ export async function getPostBySlug(slug, options = {}) {
 }
 
 
-// Get single post by slug
+// Get Featured Post
 const FEATURED_POST_QUERY = `
   query FeaturedPost {
-    post(
-      where: { featured: 1 }
+    posts( 
+      where: { featured: true }
       first: 1
     ) {
       id
@@ -90,10 +90,10 @@ const FEATURED_POST_QUERY = `
         url
         altText
       }
-      categories{
+      categories {
         name
       }
-      author{
+      author {
         name
       }
     }
@@ -105,8 +105,7 @@ export async function getFeaturedPost(options = {}) {
     FEATURED_POST_QUERY,
     options
   );
-
-  return data.post;
+  return data?.posts?.[0] || null;
 }
 
 // Get posts by category slug
