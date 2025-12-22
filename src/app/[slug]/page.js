@@ -44,8 +44,6 @@ export default async function BlogPost({ params }) {
     { next: { revalidate: 3600 } }
   );
 
-  console.log(rposts);
-
   return (
 <>
     <SchemaScript schema={schemas} />
