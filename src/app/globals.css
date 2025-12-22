@@ -183,7 +183,8 @@ p{font-size: 1rem;}
 /* Post page */
 .post-hero {
   width: 100%;
-  max-height: 420px;
+  max-height: 400px;
+  height: auto;
   object-fit: cover;
   border: 1px solid var(--border);
   border-radius: var(--radius);
