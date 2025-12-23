@@ -36,8 +36,6 @@ export default function RootLayout({ children }) {
     <html lang="en" className={noticia.variable}>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="robots" content="index, follow" />
-        <meta name="googlebot" content="index, follow" />
         <link rel="dns-prefetch" href="https://media.graphassets.com" />
         <link rel="preconnect" href="https://media.graphassets.com" />
         <style
