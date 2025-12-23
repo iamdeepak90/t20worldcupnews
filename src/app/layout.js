@@ -36,6 +36,7 @@ export default function RootLayout({ children }) {
     <html lang="en" className={noticia.variable}>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg"></link>
         <link rel="dns-prefetch" href="https://media.graphassets.com" />
         <link rel="preconnect" href="https://media.graphassets.com" />
         <style
