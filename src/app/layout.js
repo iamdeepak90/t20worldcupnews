@@ -10,16 +10,36 @@ const noticia = Noticia_Text({
 });
 
 export const metadata = {
-  title: "ICC T20 World Cup 2026 Live Score Updates, Highlights & Latest News",
+  metadataBase: new URL('https://t20worldcupnews.com'),
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+
+  title: {
+    default: 'T20 World Cup 2026 News',
+    template: '%s | T20 World Cup 2026',
+  },
   description:
     "Stay updated with the latest news, fixtures, and highlights of the ICC T20 World Cup 2026. Get all the essential information and stay ahead in the tournament countdown!",
-  viewport: "width=device-width, initial-scale=1",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={noticia.variable}>
       <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="robots" content="index, follow" />
+        <meta name="googlebot" content="index, follow" />
+        <link rel="dns-prefetch" href="https://media.graphassets.com" />
+        <link rel="preconnect" href="https://media.graphassets.com" />
         <style
           id="critical-css"
           dangerouslySetInnerHTML={{
