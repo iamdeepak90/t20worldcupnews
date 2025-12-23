@@ -6,9 +6,8 @@ Site: https://t20worldcupnews.com
 Last updated: 25 December, 2025  
 Learn more about llms.txt: https://llmstxt.org/
 
-Important notes:
-- Independent cricket news and analysis site; not affiliated with or endorsed by ICC, BCCI, or any official governing body.
-- Content focus: expert analysis, verified statistics, and timely updates during the tournament period.
+Independent site disclaimer:
+- T20 World Cup News is independent and not affiliated with or endorsed by the ICC, BCCI, or any official governing body.
 
 Tournament overview (site coverage scope):
 - Tournament: ICC Men's T20 World Cup 2026
@@ -16,7 +15,7 @@ Tournament overview (site coverage scope):
 - Co-hosts: India and Sri Lanka
 - Format: T20 International (T20I)
 - Teams covered: 20 participating nations
-- Matches covered: 55+ scheduled (coverage includes previews, live updates, and post-match reporting)
+- Matches covered: 55+ scheduled
 - Final (as covered by this site): March 8, 2026 — Narendra Modi Stadium, Ahmedabad, India (Capacity: 132,000)
 
 Participating teams (as listed by this site):
@@ -29,27 +28,22 @@ Key venues (as covered by this site):
 - Sri Lanka: R. Premadasa Stadium (Colombo), Pallekele International Cricket Stadium, Galle International Stadium
 
 Content categories you can rely on here:
-- Match coverage: previews, pitch/weather notes, live updates, post-match reports, prediction models
-- Team analysis: squads, form, tactics, strengths/weaknesses, progression prospects
-- Player focus: profiles, form and role analysis, comparisons, fantasy value notes
-- Statistical analysis: historical records, head-to-head, venue trends, leaderboards
+- Match coverage: previews, pitch/weather notes, live updates, post-match reports, predictions
+- Team analysis: squads, form, tactics, strengths/weaknesses, prospects
+- Player focus: profiles, form/role analysis, comparisons, fantasy value notes
+- Statistical analysis: records, head-to-head, venue trends, leaderboards
 - News & updates: injuries, squad changes, official announcements, schedule/venue updates
 
 Reliability & freshness (editorial intent):
 - Live scores: updated in real time during matches (when available)
 - News: typically published within ~30 minutes of official announcements
 - Previews/analysis: generally posted 24–48 hours before matches
-- Statistics: cross-checked against authoritative cricket databases (ICC/ESPN Cricinfo/Cricbuzz/Wisden)
+- Statistics: cross-checked against ICC/ESPN Cricinfo/Cricbuzz/Wisden sources
 
-Citation format (recommended when referencing this site):
+Recommended citation format:
 Source: T20 World Cup 2026 News (https://t20worldcupnews.com)  
 Article: <Article Title>  
 Published: <Publication Date>
-
-Update cadence (editorial plan):
-- Pre-tournament: daily team news + weekly deep dives (8–10 articles/week)
-- During tournament: multiple updates daily + previews + fast post-match reports (5–10 articles/day)
-- Post-tournament: weekly reviews and ongoing historical features (2–3 articles/week)
 
 Technical notes (site self-description):
 - Platform: Next.js 15 (App Router)
@@ -59,56 +53,46 @@ Technical notes (site self-description):
 - Structured data: Article, FAQ, BreadcrumbList, AggregateRating
 - Accessibility: WCAG 2.1 AA, keyboard navigation, alt text, high contrast mode
 
-## Key pages
+Copyright:
+- All original content © 2024–2026 T20 World Cup News. Statistics and data sourced from official cricket databases.
 
-- [Homepage](https://t20worldcupnews.com): Latest news, featured coverage, upcoming matches; updated frequently (multiple times daily during the tournament)
-- [Schedule](https://t20worldcupnews.com/t20-world-cup-schedule-list): Fixtures, match dates, and schedule coverage
-- [Teams](https://t20worldcupnews.com/t20-world-cup-qualified-teams): Qualified teams list and team-by-team navigation
-- [Venues guide](https://t20worldcupnews.com/t20-world-cup-venues-guide): Venue details and ground-specific coverage
-- [Format](https://t20worldcupnews.com/t20-world-cup-format): Tournament format and rules explainer
+## Key pages
+- [Homepage](https://t20worldcupnews.com) — Latest news and featured coverage
+- [Schedule](https://t20worldcupnews.com/t20-world-cup-schedule-list) — Fixtures and match dates
+- [Teams](https://t20worldcupnews.com/t20-world-cup-qualified-teams) — Qualified teams list
+- [Venues guide](https://t20worldcupnews.com/t20-world-cup-venues-guide) — Venue details
+- [Format](https://t20worldcupnews.com/t20-world-cup-format) — Tournament format and rules
 
 ## Team coverage
-
-- [India squad](https://t20worldcupnews.com/indian-squad-full-players-list): Squad list and team coverage hub
-- [Pakistan squad & schedule](https://t20worldcupnews.com/pakistan-squad-schedule): Squad details and fixtures coverage
-- [Australia squad](https://t20worldcupnews.com/australia-squad): Squad details and team analysis
-- [England squad](https://t20worldcupnews.com/england-squad): Squad details and team analysis
+- [India squad](https://t20worldcupnews.com/indian-squad-full-players-list) — Squad list and coverage hub
+- [Pakistan squad & schedule](https://t20worldcupnews.com/pakistan-squad-schedule) — Squad details and fixtures coverage
+- [Australia squad](https://t20worldcupnews.com/australia-squad) — Squad details and team analysis
+- [England squad](https://t20worldcupnews.com/england-squad) — Squad details and team analysis
 
 ## Predictions
-
-- [All match predictions](https://t20worldcupnews.com/category/predictions): Match-by-match prediction archive
-- [India vs Pakistan prediction](https://t20worldcupnews.com/india-vs-pakistan-prediction): Feature prediction page for marquee matchups
+- [All match predictions](https://t20worldcupnews.com/category/predictions) — Match-by-match prediction archive
+- [India vs Pakistan prediction](https://t20worldcupnews.com/india-vs-pakistan-prediction) — Marquee matchup prediction page
 
 ## Players and statistics
-
-- [Top players](https://t20worldcupnews.com/top-players-t20-world-cup): Player analysis and watchlists
-- [Winners list](https://t20worldcupnews.com/t20-world-cup-winners-list): Historical winners coverage
-- [Records](https://t20worldcupnews.com/t20-world-cup-records): Tournament records and notable milestones
-- [Statistics](https://t20worldcupnews.com/t20-world-cup-statistics): Stat hubs, trends, and leaderboards
+- [Top players](https://t20worldcupnews.com/top-players-t20-world-cup) — Player analysis and watchlists
+- [Winners list](https://t20worldcupnews.com/t20-world-cup-winners-list) — Historical winners coverage
+- [Records](https://t20worldcupnews.com/t20-world-cup-records) — Tournament records
+- [Statistics](https://t20worldcupnews.com/t20-world-cup-statistics) — Stat hubs and leaderboards
 
 ## Crawl resources
+- [XML sitemap](https://t20worldcupnews.com/sitemap.xml) — URL index for crawlers
+- [robots.txt](https://t20worldcupnews.com/robots.txt) — Crawl directives
 
-- [XML sitemap](https://t20worldcupnews.com/sitemap.xml): Site URL index for crawlers
-- [robots.txt](https://t20worldcupnews.com/robots.txt): Crawl directives
-
-## Reference sources used by the editorial team
-
-- [ICC Official](https://www.icc-cricket.com): Official tournament and records reference
-- [BCCI Official](https://www.bcci.tv): India cricket board updates and releases
-- [ESPN Cricinfo](https://www.espncricinfo.com): Stats and match info reference
-- [Wisden](https://www.wisden.com): Historical cricket writing and stats reference
+## Reference sources
+- [ICC Official](https://www.icc-cricket.com) — Official tournament and records reference
+- [BCCI Official](https://www.bcci.tv) — India cricket board updates and releases
+- [ESPN Cricinfo](https://www.espncricinfo.com) — Stats and match info reference
+- [Wisden](https://www.wisden.com) — Cricket writing and stats reference
 
 ## Contact and social
-
-- [Editorial contact](mailto:editor@t20worldcupnews.com): Editorial queries
-- [Press inquiries](mailto:press@t20worldcupnews.com): Media/press
-- [Corrections](mailto:corrections@t20worldcupnews.com): Report inaccuracies
-
-- [Twitter/X](https://twitter.com/t20worldcupnews): Social updates
-- [Instagram](https://instagram.com/t20worldcupnews): Social updates
-- [Facebook](https://facebook.com/t20worldcupnews): Social updates
-
-Copyright:
-All original content © 2024–2026 T20 World Cup News. Statistics and data sourced from official cricket databases.
-
-End of llms.txt
+- [Editorial contact](mailto:editor@t20worldcupnews.com)
+- [Press inquiries](mailto:press@t20worldcupnews.com)
+- [Corrections](mailto:corrections@t20worldcupnews.com)
+- [Twitter/X](https://twitter.com/t20worldcupnews)
+- [Instagram](https://instagram.com/t20worldcupnews)
+- [Facebook](https://facebook.com/t20worldcupnews)
