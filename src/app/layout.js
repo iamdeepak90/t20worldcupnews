@@ -13,16 +13,12 @@ export const metadata = {
   metadataBase: new URL('https://t20worldcupnews.com'),
   robots: {
     index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
+    follow: true
   },
-
+  icons: {
+    icon: '/icon.svg',
+    apple: '/icon.svg',
+  },
   title: {
     default: 'T20 World Cup 2026 News',
     template: '%s | T20 World Cup 2026',
@@ -36,7 +32,6 @@ export default function RootLayout({ children }) {
     <html lang="en" className={noticia.variable}>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg"></link>
         <link rel="dns-prefetch" href="https://media.graphassets.com" />
         <link rel="preconnect" href="https://media.graphassets.com" />
         <style

@@ -55,7 +55,7 @@ export default async function Home() {
               src={fpost.coverImage.url}
               width={500}
               height={350}
-              alt="cricket"
+              alt={fpost.coverImage.altText}
               priority
               fetchPriority="high"
             />
@@ -78,7 +78,7 @@ export default async function Home() {
               src={post.coverImage.url}
               width={350}
               height={220}
-              alt="cricket"
+              alt={fpost.coverImage.altText}
               className="thumb"
             />
 

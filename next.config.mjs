@@ -30,35 +30,18 @@ const nextConfig = {
           {
             key: 'Cache-Control',
             value: 'public, max-age=31536000, immutable',
-          },
-          {
-            key: 'Expires',
-            value: new Date(Date.now() + 31536000000).toUTCString(), // 1 year
-          },
-        ],
+          }
+        ]
       },
       {
-        source: '/_next/image(.*)',
+        source: '/_next/static/:path*',
         headers: [
           {
             key: 'Cache-Control',
             value: 'public, max-age=31536000, immutable',
-          },
-          {
-            key: 'Expires',
-            value: new Date(Date.now() + 31536000000).toUTCString(),
-          },
-        ],
-      },
-      {
-        source: '/_next/static(.*)',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
+          }
+        ]
+      }
     ];
   },
 };

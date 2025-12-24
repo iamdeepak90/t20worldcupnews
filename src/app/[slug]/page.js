@@ -3,9 +3,13 @@ import { getPostBySlug, getAllPostSlugs, getRelatedPosts } from "@/lib/queries";
 import { formatDate, readTime } from "@/lib/utils";
 import { buildMetadata } from "@/lib/seo";
 import { generateBlogPostSchema, SchemaScript } from "@/lib/schema";
-import RelatedPosts from "@/components/RelatedPosts";
+import dynamic from 'next/dynamic';
 import Image from "next/image";
 import Sidebar from "@/components/Sidebar";
+
+const RelatedPosts = dynamic(() => import('@/components/RelatedPosts'), {
+  loading: () => <div className="skeleton">Loading...</div>
+});
 
 export async function generateStaticParams() {
   const posts = await getAllPostSlugs();
