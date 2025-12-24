@@ -217,25 +217,6 @@ export function generateRatingSchema(post) {
 }
 
 /**
- * Generate AggregateRating Schema for Blog Posts
- * Better for SEO - shows star ratings in search results
- */
-export function generateAggregateRatingSchema(post) {
-  const rating = post.averageRating || 4.7;
-  const reviewCount = post.reviewCount || Math.floor(Math.random() * 100) + 20;
-  const ratingCount = post.ratingCount || reviewCount;
-
-  return {
-    '@type': 'AggregateRating',
-    ratingValue: rating.toString(),
-    bestRating: '5',
-    worstRating: '1',
-    ratingCount: ratingCount,
-    reviewCount: reviewCount,
-  };
-}
-
-/**
  * Generate Combined Schema for Blog Post (Article + FAQ + Rating)
  * No breadcrumb, no category - clean and focused
  */
@@ -247,11 +228,6 @@ export function generateBlogPostSchema(post) {
 
   // Enhanced Article Schema with AggregateRating
   const articleSchema = generateArticleSchema(post);
-  if (articleSchema) {
-    // Add AggregateRating directly to Article
-    articleSchema.aggregateRating = generateAggregateRatingSchema(post);
-    schemas.push(articleSchema);
-  }
 
   // FAQ Schema (extract from content)
   if (post.content?.html) {
