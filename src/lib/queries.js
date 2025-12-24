@@ -3,7 +3,7 @@ import { fetchHygraph } from "./hygraph";
 const LATEST_POSTS_QUERY = `
   query LatestPosts($limit: Int!) {
     posts(
-      orderBy: publishedAt_DESC
+      orderBy: date_DESC
       first: $limit
     ) {
       id
@@ -113,7 +113,7 @@ const POSTS_BY_CATEGORY_QUERY = `
   query PostsByCategory($categorySlug: String!, $limit: Int) {
     posts(
       where: { categories_some: { slug: $categorySlug } }
-      orderBy: publishedAt_DESC
+      orderBy: date_DESC
       first: $limit
     ) {
       id
@@ -257,7 +257,7 @@ const RELATED_POSTS_QUERY = `
         slug_not: $slug
         categories_some: { slug_in: $categorySlugs }
       }
-      orderBy: publishedAt_DESC
+      orderBy: date_DESC
       first: $limit
     ) {
       id
