@@ -3,7 +3,6 @@ import logo from "@/images/t20logo.png";
 import Link from "next/link";
 
 export default async function Header(){
-    const cats = await GetAllCategory();
   return (
 <header className="site-header">
   <div className="container nav-row">
