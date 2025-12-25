@@ -8,8 +8,8 @@ import homeimg from "@/images/icc-t20-world-cup-2026-live.webp";
 import Sidebar from "@/components/Sidebar";
 
 export const metadata = buildMetadata({
-  title: "T20 World Cup 2026 Live Streaming, Schedule & How to Watch Online",
-  description: "Stay updated with the latest news, fixtures, and highlights of the ICC T20 World Cup 2026. Get all the essential information and stay ahead in the tournament countdown!",
+  title: "T20 World Cup 2026 Schedule, Score Updates & Watch Online",
+  description: "Your front-row seat to T20 World Cup 2026. Get the full schedule (Fixtures PDF), live ball-by-ball scores and coverage of India vs Pakistan from Colombo.",
   url: "https://t20worldcupnews.com",
   image: homeimg.src,
 });

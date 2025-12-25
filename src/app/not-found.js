@@ -1,9 +1,9 @@
 import Link from 'next/link';
+import {buildMetadata} from '@/lib/seo';
 
-export const metadata = {
-  title: '404 - Page Not Found',
-  description: 'The page you are looking for does not exist.',
-};
+export const metadata = buildMetadata({
+  title: '404 - Page Not Found | T20 World Cup News'
+});
 
 export default function NotFound() {
   return (

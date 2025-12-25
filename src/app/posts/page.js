@@ -7,8 +7,8 @@ import postsimg from "@/images/T20 World Cup 2026 Latest News.webp";
 import Link from "next/link";
 
 export const metadata = buildMetadata({
-  title: "T20 World Cup 2026 News",
-  description: "Stay updated with the latest news",
+  title: "Latest Cricket News & Updates",
+  description: "Read the latest articles, match previews, post-match analysis, and breaking news stories covering the 2026 T20 World Cup. Stay updated with daily cricket insights.",
   url: "https://t20worldcupnews.com/posts",
   image: postsimg.src,
 });

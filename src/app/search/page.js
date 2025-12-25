@@ -4,6 +4,21 @@ import { formatDate } from '@/lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
 
+
+export async function generateMetadata({ searchParams }) {
+  const resolvedParams = await searchParams;
+  const query = resolvedParams.q || 'Search';
+  return {
+    title: `You searched for "${query}" - T20 World Cup News`,
+    description: `Search results for ${query}. Find related news, schedules, players, and match updates on T20WorldCupNews.com.`,
+    robots: {
+      index: false,
+      follow: true,
+    },
+    canonical: 'https://t20worldcupnews.com',
+  };
+}
+
 export default async function SearchPage({ searchParams }) {
   const resolvedParams = await searchParams;
   const searchQuery = resolvedParams?.q || '';
