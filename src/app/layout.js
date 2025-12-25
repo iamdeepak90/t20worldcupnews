@@ -19,12 +19,8 @@ export const metadata = {
     icon: '/icon.svg',
     apple: '/icon.svg',
   },
-  title: {
-    default: 'T20 World Cup News',
-    template: '%s | T20 World Cup News',
-  },
-  description:
-    "Stay updated with the latest news, fixtures, and highlights of the ICC T20 World Cup 2026. Get all the essential information and stay ahead in the tournament countdown!",
+  title: "T20 World Cup News",
+  description: "Stay updated with the latest news, fixtures, and highlights of the ICC T20 World Cup 2026. Get all the essential information and stay ahead in the tournament countdown!",
 };
 
 export default function RootLayout({ children }) {
