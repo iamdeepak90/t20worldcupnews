@@ -84,28 +84,25 @@ export function generateArticleSchema(post) {
   };
 }
 
+
 /**
  * Generate BreadcrumbList Schema
  */
-export function generateBreadcrumbSchema(title, url) {
+export function generateBreadcrumbSchema(breadcrumbs) {
+  if (!breadcrumbs || breadcrumbs.length === 0) return null;
+
+  const baseUrl = SITE_URL;
+
   return {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-        {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": SITE_URL
-        },
-        {
-        "@type": "ListItem",
-        "position": 2,
-        "name": title,
-        "item": SITE_URL + '/' + url
-        }
-    ]
-    };
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: breadcrumbs.map((crumb, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: crumb.name,
+      item: `${baseUrl}${crumb.url}`,
+    })),
+  };
 }
 
 /**
@@ -141,6 +138,34 @@ export function generateOrganizationSchema() {
     name: 'T20 World Cup 2026',
     url: SITE_URL,
     logo: 'https://upload.wikimedia.org/wikipedia/en/thumb/f/fa/2026_ICC_Men%27s_T20_World_Cup_logo.svg/1200px-2026_ICC_Men%27s_T20_World_Cup_logo.svg.png',
+  };
+}
+
+
+
+/**
+ * Generate CollectionPage Schema for Category/Archive Pages
+ */
+export function generateCollectionPageSchema(category, posts) {
+  if (!category) return null;
+
+  const baseUrl = SITE_URL;
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: `${category.name} - T20 World Cup 2026`,
+    description: `Latest ${category.name} news and updates for T20 World Cup 2026`,
+    url: `${baseUrl}/category/${category.slug}`,
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: posts.slice(0, 10).map((post, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        url: `${baseUrl}/posts/${post.slug}`,
+        name: post.title,
+      })),
+    },
   };
 }
 
@@ -223,7 +248,12 @@ export function generateRatingSchema(post) {
 export function generateBlogPostSchema(post) {
   const schemas = [];
 
-  const breadcrumbSchema = generateBreadcrumbSchema(post.title, post.slug);
+  const breadcrumbs = [
+    { name: 'Home', url: '/' },
+    { name: post.title, url: post.slug },
+  ];
+
+  const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbs);
   if (breadcrumbSchema) schemas.push(breadcrumbSchema);
 
   // Enhanced Article Schema with AggregateRating
@@ -256,6 +286,28 @@ export function generateHomepageSchema(html) {
   const faqs = extractFAQFromHTML(html);
   const faqSchema = generateFAQSchema(faqs);
   if (faqSchema) schemas.push(faqSchema);
+
+  return schemas;
+}
+
+
+/**
+ * Generate Combined Schema for Category Page
+ */
+export function generateCategoryPageSchema(category, posts) {
+  const schemas = [];
+
+  // CollectionPage Schema
+  const collectionSchema = generateCollectionPageSchema(category, posts);
+  if (collectionSchema) schemas.push(collectionSchema);
+
+  // Breadcrumb Schema
+  const breadcrumbs = [
+    { name: 'Home', url: '/' },
+    { name: category.name, url: `/category/${category.slug}` },
+  ];
+  const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbs);
+  if (breadcrumbSchema) schemas.push(breadcrumbSchema);
 
   return schemas;
 }

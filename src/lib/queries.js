@@ -111,6 +111,19 @@ export async function getFeaturedPost(options = {}) {
 // Get posts by category slug
 const POSTS_BY_CATEGORY_QUERY = `
   query PostsByCategory($categorySlug: String!, $limit: Int) {
+    category(where: { slug: $categorySlug }) {
+      id
+      name
+      slug
+      seoOverride {
+        title
+        description
+        image {
+          url
+          altText
+        }
+      }
+    }
     posts(
       where: { categories_some: { slug: $categorySlug } }
       orderBy: date_DESC
@@ -143,7 +156,10 @@ export async function getPostsByCategory(categorySlug, limit = 10, options = {})
     options
   );
 
-  return data.posts;
+  const category = data.category;
+  const posts = data.posts;
+
+  return {category, posts};
 }
 
 // Get all post slugs (for generateStaticParams)
@@ -221,7 +237,6 @@ export async function searchPosts(searchTerm, options = {}) {
 
   return data.posts || [];
 }
-
 
 
 

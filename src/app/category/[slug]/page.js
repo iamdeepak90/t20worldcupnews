@@ -3,21 +3,45 @@ import { getPostsByCategory } from "@/lib/queries";
 import { formatDate } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
+import { generateCategoryPageSchema, SchemaScript } from "@/lib/schema";
+import { buildMetadata } from "@/lib/seo";
 
-export default async function CategoryPage({ params }) {
+
+export async function generateMetadata({ params }) {
   const resolvedParams = await params;
-  const posts = await getPostsByCategory(resolvedParams.slug, 20, {
+  const {category} = await getPostsByCategory(resolvedParams.slug, 0, {
     next: { revalidate: 3600 },
   });
 
+  return buildMetadata({
+      title: category.seoOverride.title,
+      description: category.seoOverride.description,
+      url: `https://t20worldcupnews.com/category/${resolvedParams.slug}`,
+      image: category.seoOverride.image.url
+  });
+  
+}
+
+
+
+export default async function CategoryPage({ params }) {
+  const resolvedParams = await params;
+  const {category, posts} = await getPostsByCategory(resolvedParams.slug, 20, {
+    next: { revalidate: 3600 },
+  });
+
+  const schemas = generateCategoryPageSchema(category, posts);
+
   return (
+<>
+    <SchemaScript schema={schemas} />
+
     <main className="container">
       <div className="layout">
         <section>
           <div className="row-between row-between--baseline">
-            <h1 className="page-title">
-              Category: {resolvedParams.slug.replace(/-/g, " ").toUpperCase()}
-            </h1>
+            <h1 className="page-title">{category.seoOverride.title}</h1>
+            <p>{category.seoOverride.description}</p>
           </div>
 
           <div className="spacer-10" />
@@ -66,5 +90,6 @@ export default async function CategoryPage({ params }) {
         <Sidebar />
       </div>
     </main>
+</>
   );
 }
