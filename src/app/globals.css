@@ -210,12 +210,17 @@ p{font-size: 1rem;}
 .article-card table {
   border-collapse: collapse;
   width: 100%;
-  display: table;
+  max-width: 81vw;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 0 auto;
+  display: block;
 }
 
-.article-card table td {
+.article-card table td, .article-card table td {
   border: 1px solid #cccccc;
   padding: 5px 5px 5px 10px;
+  white-space: nowrap !important;
 }
 
 .article-card table thead {
