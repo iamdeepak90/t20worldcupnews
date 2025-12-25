@@ -16,10 +16,6 @@
   letter-spacing: .25px;
 }
 
-.small-link {
-  color: var(--muted)
-}
-
 .small-link:hover {
   color: var(--text)
 }

@@ -53,8 +53,8 @@ export default async function Home() {
           <div className="hero-media">
             <Image
               src={fpost.coverImage.url}
-              width={500}
-              height={350}
+              width={490}
+              height={310}
               alt={fpost.coverImage.altText}
               priority
               fetchPriority="high"
@@ -65,6 +65,7 @@ export default async function Home() {
 
       <div className="section-head">
         <h3 className="section-title">Recent Posts</h3>
+        <Link className="small-link" href="/posts">View all</Link>
       </div>
 
       <section className="grid-3 mb-1">
@@ -76,8 +77,8 @@ export default async function Home() {
           >
             <Image
               src={post.coverImage.url}
-              width={350}
-              height={220}
+              width={330}
+              height={181}
               alt={fpost.coverImage.altText}
               className="thumb"
             />
