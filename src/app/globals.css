@@ -103,6 +103,10 @@ p{font-size: 1rem;}
   background: var(--bg);
   margin-bottom: 12px;
 }
+.sidebar-box.sidebar-sticky {
+    position: sticky;
+    top: 0;
+}
 
 .sidebar-box h3 {
   margin: 0 0 10px;
