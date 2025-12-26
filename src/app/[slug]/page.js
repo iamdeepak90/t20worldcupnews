@@ -20,7 +20,8 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }) {
   const resolvedParams = await params;
   const post = await getPostBySlug(resolvedParams.slug);
-
+  if (!post) notFound();
+  
   return buildMetadata({
       title: post.title,
       description: post.excerpt,
