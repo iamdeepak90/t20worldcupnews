@@ -2,6 +2,7 @@ import { Noticia_Text } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import dynamic from 'next/dynamic';
+import { Suspense } from "react";
 
 const SocialShare = dynamic(() => import('@/components/SocialShare'));
 
@@ -286,7 +287,10 @@ main{padding:22px 0}
         />
       </head>
       <body>
-        <SocialShare />
+        <Suspense fallback={null}>
+          <SocialShare />
+        </Suspense>
+
         <Header />
         {children}
         <Footer />

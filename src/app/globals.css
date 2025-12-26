@@ -24,7 +24,7 @@
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: var(--bg);
-  margin: 6px 0 14px;
+  margin-bottom: 16px;
 }
 
 .card-hover:hover {
