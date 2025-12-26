@@ -217,10 +217,9 @@ p{font-size: 1rem;}
   display: block;
 }
 
-.article-card table td, .article-card table td {
-  border: 1px solid #cccccc;
-  padding: 5px 5px 5px 10px;
-  white-space: nowrap !important;
+.article-card table td, .article-card table th {
+  border: 1px solid #b5b5b5;
+  padding: 7px 5px 7px 10px;
 }
 
 .article-card table thead {
