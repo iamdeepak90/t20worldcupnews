@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { getLatestPosts, getPageBySlug, getFeaturedPost } from "@/lib/queries";
+import { getPageBySlug, getFeaturedPost } from "@/lib/queries";
 import { formatDate } from "@/lib/utils";
 import { generateHomepageSchema, SchemaScript } from "@/lib/schema";
 import Link from "next/link";
@@ -15,11 +15,12 @@ export const metadata = generateSEO({
 });
 
 export default async function Home() {
-  const [posts, fpost, page] = await Promise.all([
-    getLatestPosts(6),
+  const [fpost, page] = await Promise.all([
     getFeaturedPost(),
     getPageBySlug("home"),
   ]);
+
+  console.log(fpost);
 
   const schemas = generateHomepageSchema(page.content.html);
   return (
@@ -30,22 +31,22 @@ export default async function Home() {
       <section className="hero">
         <div className="hero-grid">
           <div className="hero-copy">
-            {fpost.categories.map((cat) => (
+            {fpost[0].categories.map((cat) => (
               <span key={cat.name} className="badge">
                 {cat.name}
               </span>
             ))}
 
-            <h2 className="hero-title">{fpost.title}</h2>
+            <h2 className="hero-title">{fpost[0].title}</h2>
 
             <p className="meta hero-meta">
-              By {fpost.author.name} | {formatDate(fpost.date)}
+              By {fpost[0].author.name} | {formatDate(fpost[0].date)}
             </p>
 
-            <p className="hero-excerpt">{fpost.excerpt}</p>
+            <p className="hero-excerpt">{fpost[0].excerpt}</p>
 
             <div className="hero-actions">
-              <Link href={`/${fpost.slug}`} className="btn">
+              <Link href={`/${fpost[0].slug}`} className="btn">
                 Read more ↗
               </Link>
             </div>
@@ -53,10 +54,10 @@ export default async function Home() {
 
           <div className="hero-media">
             <Image
-              src={fpost.coverImage.url}
+              src={fpost[0].coverImage.url}
               width={490}
               height={310}
-              alt={fpost.coverImage.altText}
+              alt={fpost[0].coverImage.altText}
               priority
               fetchPriority="high"
             />
@@ -70,7 +71,7 @@ export default async function Home() {
       </div>
 
       <section className="grid-3 mb-1">
-        {posts.map((post) => (
+        {fpost.slice(1).map((post) => (
           <Link
             key={post.slug}
             className="card card-hover category-card"
@@ -80,7 +81,7 @@ export default async function Home() {
               src={post.coverImage.url}
               width={330}
               height={181}
-              alt={fpost.coverImage.altText}
+              alt={post.coverImage.altText}
               className="thumb"
               placeholder="blur"
               blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAFCAYAAAB4ka1VAAAAk0lEQVR4ARyMsQmAMBREzzQWgoM4hhs4hSu4gAtYuJOFhWItKEqakEBIQggkX0x7995jbdtS3/c0jiPN80zTNNEwDNR1HTVNQ8wYA2stiqJAVVWo6xplWSKlhBgjmFIKnHM8z4PrunDfN973hRACzjkwrXUe933Huq5YlgXbtmXorzPvPaSUOM8zH8dxZOEvhxDwAQAA//+Ro3vUAAAABklEQVQDAFlyXgftTnIBAAAAAElFTkSuQmCC"

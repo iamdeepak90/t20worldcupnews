@@ -83,7 +83,7 @@ const FEATURED_POST_QUERY = `
   query FeaturedPost {
     posts( 
       where: { featured: true }
-      first: 1
+      first: 7
     ) {
       id
       title
@@ -109,7 +109,7 @@ export async function getFeaturedPost(options = {}) {
     FEATURED_POST_QUERY,
     options
   );
-  return data?.posts?.[0] || null;
+  return data.posts;
 }
 
 // Get posts by category slug

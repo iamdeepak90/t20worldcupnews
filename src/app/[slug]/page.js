@@ -11,10 +11,10 @@ const RelatedPosts = dynamic(() => import('@/components/RelatedPosts'), {
   loading: () => <div className="skeleton">Loading...</div>
 });
 
-export async function generateStaticParams() {
+/* export async function generateStaticParams() {
   const posts = await getAllPostSlugs();
   return posts.map((post) => ({ slug: post.slug }));
-}
+} */
 
 
 export async function generateMetadata({ params }) {
