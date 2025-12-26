@@ -3,14 +3,14 @@ import { getLatestPosts, getPageBySlug, getFeaturedPost } from "@/lib/queries";
 import { formatDate } from "@/lib/utils";
 import { generateHomepageSchema, SchemaScript } from "@/lib/schema";
 import Link from "next/link";
-import { buildMetadata } from "@/lib/seo";
+import { generateSEO } from "@/lib/seo";
 import homeimg from "@/images/icc-t20-world-cup-2026-live.webp";
 import Sidebar from "@/components/Sidebar";
 
-export const metadata = buildMetadata({
+export const metadata = generateSEO({
   title: "T20 World Cup 2026 Schedule, Score Updates & Watch Online",
   description: "Your front-row seat to T20 World Cup 2026. Get the full schedule (Fixtures PDF), live ball-by-ball scores and coverage of India vs Pakistan from Colombo.",
-  url: "https://t20worldcupnews.com",
+  url: "/",
   image: homeimg.src,
 });
 
@@ -20,6 +20,7 @@ export default async function Home() {
     getFeaturedPost(),
     getPageBySlug("home"),
   ]);
+
   const schemas = generateHomepageSchema(page.content.html);
   return (
 <>

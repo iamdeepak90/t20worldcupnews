@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { getPostBySlug, getAllPostSlugs, getRelatedPosts } from "@/lib/queries";
 import { formatDate, readTime } from "@/lib/utils";
-import { buildMetadata } from "@/lib/seo";
+import { generateSEO } from "@/lib/seo";
 import { generateBlogPostSchema, SchemaScript } from "@/lib/schema";
 import dynamic from 'next/dynamic';
 import Image from "next/image";
@@ -22,11 +22,12 @@ export async function generateMetadata({ params }) {
   const post = await getPostBySlug(resolvedParams.slug);
   if (!post) notFound();
   
-  return buildMetadata({
-      title: post.title,
-      description: post.excerpt,
-      url: `https://t20worldcupnews.com/${resolvedParams.slug}`,
-      image: post.coverImage.url
+  return generateSEO({
+    title: post.seoOverride.title,
+    description: post.seoOverride.description,
+    url: `/${post.slug}`,
+    image: post.coverImage?.url,
+    type: 'article',
   });
   
 }

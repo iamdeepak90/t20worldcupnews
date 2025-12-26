@@ -142,7 +142,7 @@ a:hover{text-decoration:underline}
 }
 
 .nav-search input{
-  width:260px;
+  width:200px;
   max-width:100%;
   padding:10px;
   border-radius:var(--radius);

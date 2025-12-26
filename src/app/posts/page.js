@@ -1,15 +1,15 @@
 import Sidebar from "@/components/Sidebar";
 import { getLatestPosts } from "@/lib/queries";
 import { formatDate } from "@/lib/utils";
-import { buildMetadata } from "@/lib/seo";
+import { generateSEO } from "@/lib/seo";
 import Image from "next/image";
 import postsimg from "@/images/T20 World Cup 2026 Latest News.webp";
 import Link from "next/link";
 
-export const metadata = buildMetadata({
+export const metadata = generateSEO({
   title: "Latest Cricket News & Updates",
   description: "Read the latest articles, match previews, post-match analysis, and breaking news stories covering the 2026 T20 World Cup. Stay updated with daily cricket insights.",
-  url: "https://t20worldcupnews.com/posts",
+  url: "/posts",
   image: postsimg.src,
 });
 
@@ -63,7 +63,7 @@ export default async function Posts() {
             </article>
           ))}
 
-          <button style={{display:'block', margin:'0 auto'}} className="btn">Load more ...</button>
+          <button style={{ display: 'block', margin: '0 auto' }} className="btn">Load more ...</button>
 
         </section>
 
