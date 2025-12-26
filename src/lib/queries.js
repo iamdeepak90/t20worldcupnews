@@ -59,6 +59,7 @@ const POST_BY_SLUG_QUERY = `
         slug
       }
       date
+      updatedAt
       seoOverride {
         title
         description

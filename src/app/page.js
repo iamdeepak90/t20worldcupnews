@@ -20,8 +20,6 @@ export default async function Home() {
     getPageBySlug("home"),
   ]);
 
-  console.log(fpost);
-
   const schemas = generateHomepageSchema(page.content.html);
   return (
 <>

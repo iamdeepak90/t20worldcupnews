@@ -39,6 +39,7 @@ export default async function BlogPost({ params }) {
   });
 
   if (!post) notFound();
+  console.log(post);
 
   const schemas = generateBlogPostSchema(post);
 

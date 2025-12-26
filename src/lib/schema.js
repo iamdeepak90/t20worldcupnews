@@ -117,12 +117,12 @@ export function generateNewsArticleSchema(post) {
       '@id': articleUrl,
     },
     headline: post.title,
-    description: post.excerpt || post.title,
+    description: post.excerpt,
     image: imageUrl,
 
     // Dates - Use ISO 8601 format
-    datePublished: post.date,
-    dateModified: post.updatedAt || post.date,
+    datePublished: post.date ? new Date(post.date).toISOString() : undefined,
+    dateModified: post.updatedAt,
 
     // Author information - Enhanced with more details
     author: {
@@ -151,11 +151,6 @@ export function generateNewsArticleSchema(post) {
     keywords: post.categories?.map(cat => cat.name).join(', ') || 'T20 World Cup, Cricket, T20 World Cup Live Streaming, T20 World Cup Schedule',
     
     inLanguage: 'en-US',
-    about: {
-      '@type': 'SportsEvent',
-      name: 'T20 World Cup 2026',
-      sport: 'Cricket',
-    },
   };
 }
 
