@@ -59,6 +59,10 @@ const POST_BY_SLUG_QUERY = `
         slug
       }
       date
+      seoOverride {
+        title
+        description
+      }
     }
   }
 `;
