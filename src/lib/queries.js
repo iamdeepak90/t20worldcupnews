@@ -170,7 +170,7 @@ export async function getPostsByCategory(categorySlug, limit = 10, options = {})
 // Get all post slugs (for generateStaticParams)
 const ALL_POST_SLUGS_QUERY = `
   query GetAllPostSlugs {
-    posts(orderBy: updatedAt_DESC) {
+    posts(orderBy: date_DESC) {
       slug
       updatedAt
     }

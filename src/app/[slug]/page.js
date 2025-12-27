@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getPostBySlug, getAllPostSlugs, getRelatedPosts } from "@/lib/queries";
+import { getPostBySlug, getRelatedPosts } from "@/lib/queries";
 import { formatDate, readTime } from "@/lib/utils";
 import { generateSEO } from "@/lib/seo";
 import { generateBlogPostSchema, SchemaScript } from "@/lib/schema";
@@ -10,6 +10,8 @@ import Sidebar from "@/components/Sidebar";
 const RelatedPosts = dynamic(() => import('@/components/RelatedPosts'), {
   loading: () => <div className="skeleton">Loading...</div>
 });
+
+const SocialShare = dynamic(() => import('@/components/SocialShare'));
 
 /* export async function generateStaticParams() {
   const posts = await getAllPostSlugs();
@@ -97,6 +99,13 @@ export default async function BlogPost({ params }) {
         <Sidebar />
       </div>
     </main>
+
+
+    <SocialShare
+      url={`https://t20worldcupnews.com/${post.slug}`}
+      title={post.title}
+      pinterestMedia={post.coverImage?.url}
+    />
 </>
   );
 }

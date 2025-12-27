@@ -15,7 +15,9 @@
   font-weight: 700;
   letter-spacing: .25px;
 }
-
+.small-link{
+  font-size: 13px;
+}
 .small-link:hover {
   color: var(--text)
 }

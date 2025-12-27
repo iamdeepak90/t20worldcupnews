@@ -64,8 +64,8 @@ export default async function Home() {
       </section>
 
       <div className="section-head">
-        <h3 className="section-title">Recent Posts</h3>
-        <Link className="small-link" href="/posts">View all</Link>
+        <h3 className="section-title">Featured Post</h3>
+        <Link className="small-link" href="/posts">All Recent Posts →</Link>
       </div>
 
       <section className="grid-3 mb-1">
