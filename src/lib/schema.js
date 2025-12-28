@@ -168,7 +168,7 @@ export function generateBreadcrumbSchema(breadcrumbs) {
       '@type': 'ListItem',
       position: index + 1,
       name: crumb.name,
-      item: `${SITE_URL}${crumb.url}`,
+      item: `${SITE_URL}/${crumb.url}`,
     })),
   };
 }
