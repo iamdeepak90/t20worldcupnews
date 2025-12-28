@@ -74,6 +74,7 @@ p{font-size: 1rem;}
   border: 1px solid var(--border);
   display: block;
   margin-bottom: 10px;
+  aspect-ratio: 3/1.75;
 }
 
 /* Layout: content + sidebar */

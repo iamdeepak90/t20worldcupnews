@@ -1,10 +1,11 @@
 import { fetchHygraph } from "./hygraph";
 
 const LATEST_POSTS_QUERY = `
-  query LatestPosts($limit: Int!) {
+  query LatestPosts($limit: Int!, $skip: Int!) {
     posts(
       orderBy: date_DESC
       first: $limit
+      skip: $skip
     ) {
       id
       title
@@ -25,10 +26,10 @@ const LATEST_POSTS_QUERY = `
   }
 `;
 
-export async function getLatestPosts(limit = 5, options = {}) {
+export async function getLatestPosts(limit = 5, skip = 0, options = {}) {
   const data = await fetchHygraph(
     LATEST_POSTS_QUERY,
-    { limit },
+    { limit, skip },
     options
   );
 
@@ -190,6 +191,7 @@ const ALL_CATEGORY_QUERY = `
       id
       name
       slug
+      updatedAt
     }
   }
 `;

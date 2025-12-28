@@ -1,10 +1,9 @@
 import Sidebar from "@/components/Sidebar";
 import { getLatestPosts } from "@/lib/queries";
-import { formatDate } from "@/lib/utils";
 import { generateSEO } from "@/lib/seo";
-import Image from "next/image";
 import postsimg from "@/images/T20 World Cup 2026 Latest News.webp";
-import Link from "next/link";
+
+import LoadMorePosts from "@/components/LoadMorePosts";
 
 export const metadata = generateSEO({
   title: "Latest Cricket News & Updates",
@@ -14,7 +13,7 @@ export const metadata = generateSEO({
 });
 
 export default async function Posts() {
-  const posts = await getLatestPosts(20, {
+  const posts = await getLatestPosts(15, 0, {
     next: { revalidate: 3600 },
   });
 
@@ -23,47 +22,7 @@ export default async function Posts() {
       <div className="layout">
         <section>
 
-          {posts.map((post) => (
-            <article key={post.id} className="card card-hover post-card">
-              <div className="post-row">
-                <div className="post-media">
-                  <Image
-                    src={post.coverImage.url}
-                    width={300}
-                    height={240}
-                    alt={post.coverImage.altText}
-                    priority
-                    placeholder="blur"
-                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAFCAYAAAB4ka1VAAAAk0lEQVR4ARyMsQmAMBREzzQWgoM4hhs4hSu4gAtYuJOFhWItKEqakEBIQggkX0x7995jbdtS3/c0jiPN80zTNNEwDNR1HTVNQ8wYA2stiqJAVVWo6xplWSKlhBgjmFIKnHM8z4PrunDfN973hRACzjkwrXUe933Huq5YlgXbtmXorzPvPaSUOM8zH8dxZOEvhxDwAQAA//+Ro3vUAAAABklEQVQDAFlyXgftTnIBAAAAAElFTkSuQmCC"
-                  />
-                </div>
-
-                <div className="post-body">
-                  <div className="row-between">
-                    <div className="badge-row">
-                      {post.categories.map((cat) => (
-                        <span key={cat.name} className="badge">
-                          {cat.name}
-                        </span>
-                      ))}
-                    </div>
-                    <span className="meta">{formatDate(post.date)}</span>
-                  </div>
-
-                  <div className="post-title">
-                    <Link href={`/${post.slug}`}>{post.title}</Link>
-                  </div>
-
-                  <p className="meta post-excerpt">{post.excerpt}</p>
-                  <Link href={`/${post.slug}`} className="small-link">
-                    Read more →
-                  </Link>
-                </div>
-              </div>
-            </article>
-          ))}
-
-          <button style={{ display: 'block', margin: '0 auto' }} className="btn">Load more ...</button>
+          <LoadMorePosts initialPosts={posts} pageSize={15} />
 
         </section>
 
