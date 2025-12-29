@@ -15,9 +15,6 @@ export const metadata = {
     index: true,
     follow: true
   },
-  icons: {
-    apple: '/icon.svg',
-  },
   title: "T20 World Cup News",
   description: "Stay updated with the latest news, fixtures, and highlights of the ICC T20 World Cup 2026. Get all the essential information and stay ahead in the tournament countdown!",
 };
@@ -27,6 +24,7 @@ export default function RootLayout({ children }) {
     <html lang="en" className={noticia.variable}>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="apple-mobile-web-app-title" content="T20 News" />
         <link rel="dns-prefetch" href="https://media.graphassets.com" />
         <link rel="preconnect" href="https://media.graphassets.com" />
         <style
