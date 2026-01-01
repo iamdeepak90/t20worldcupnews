@@ -4,7 +4,6 @@
 const SITE_URL = 'https://t20worldcupnews.com';
 const SITE_NAME = 'T20 World Cup News';
 const TWITTER_HANDLE = '@DeepakWin8';
-const DEFAULT_IMAGE = `${SITE_URL}/og-default.jpg`;
 
 /**
  * Generate metadata for any page type
@@ -30,9 +29,7 @@ export function generateSEO({
   const absoluteUrl = url?.startsWith('http') ? url : `${SITE_URL}${url || ''}`;
   const absoluteImage = image?.startsWith('http') 
     ? image 
-    : image 
-      ? `${SITE_URL}${image}` 
-      : DEFAULT_IMAGE;
+    : `${SITE_URL}${image}`;
 
   return {
     title: title || SITE_NAME,
@@ -65,10 +62,10 @@ export function generateSEO({
         {
           url: absoluteImage,
           secureUrl: absoluteImage,
-          width: 1200,
-          height: 630,
+          width: 730,
+          height: 383,
           alt: title || SITE_NAME,
-          type: 'image/jpeg',
+          type: 'image/webp',
         },
       ],
     },
