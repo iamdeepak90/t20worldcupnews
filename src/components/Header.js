@@ -20,7 +20,7 @@ export default async function Header(){
         <Link className="nav-link" href="/category/teams">Teams</Link>
         <Link className="nav-link" href="/category/news">News</Link>
       </nav>
-      <form className="nav-search" action="search" method="get" role="search">
+      <form className="nav-search" action="/search" method="get" role="search">
         <input type="search" name="q" placeholder="Search news..." aria-label="Search news" />
         <button type="submit">Search</button>
       </form>
