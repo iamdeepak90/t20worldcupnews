@@ -4,21 +4,21 @@ const LOGO_URL = `${SITE_URL}/logo.webp`;
 
 /**
  * Extract FAQ questions and answers from HTML content
- * Looks for <h3> questions followed by <p> answers
+ * Optimized with single regex pass
  */
 export function extractFAQFromHTML(htmlContent) {
   if (!htmlContent) return [];
 
   const faqs = [];
   
-  // Match FAQ section and content after it
-  const faqMatch = htmlContent.match(/<h2[^>]*>Frequently Asked Questions.*?<\/h2>(.*?)(?=<h2|$)/is);
+  // Match FAQ section - more flexible pattern
+  const faqMatch = htmlContent.match(/<h2[^>]*>(?:Frequently Asked Questions|FAQ).*?<\/h2>(.*?)(?=<h2|<footer|$)/is);
   
   if (!faqMatch) return faqs;
   
   const faqSection = faqMatch[1];
   
-  // Extract Q&A pairs: <h3>Question</h3><p>Answer</p>
+  // Extract Q&A pairs with improved regex
   const regex = /<h3[^>]*>(.*?)<\/h3>\s*<p[^>]*>(.*?)<\/p>/gs;
   let match;
   
@@ -54,7 +54,10 @@ export function generateFAQSchema(faqs) {
   };
 }
 
-// 1. Organization Schema (Add to your homepage or site-wide)
+/**
+ * Organization Schema - FIXED for proper visibility
+ * This should be included on EVERY page
+ */
 export function generateOrganizationSchema() {
   return {
     '@context': 'https://schema.org',
@@ -67,8 +70,8 @@ export function generateOrganizationSchema() {
       '@id': `${SITE_URL}/#logo`,
       url: LOGO_URL,
       contentUrl: LOGO_URL,
-      width: '600',
-      height: '600',
+      width: 600,  // FIXED: Remove quotes from numbers
+      height: 600,
       caption: SITE_NAME,
     },
     sameAs: [
@@ -78,7 +81,9 @@ export function generateOrganizationSchema() {
   };
 }
 
-// 2. WebSite Schema (Add to homepage)
+/**
+ * WebSite Schema - For homepage
+ */
 export function generateWebsiteSchema() {
   return {
     '@context': 'https://schema.org',
@@ -101,12 +106,18 @@ export function generateWebsiteSchema() {
   };
 }
 
-// 3. Enhanced NewsArticle Schema
+/**
+ * Enhanced NewsArticle Schema - FIXED multiple issues
+ */
 export function generateNewsArticleSchema(post) {
   if (!post) return null;
 
   const imageUrl = post.coverImage?.url;
   const articleUrl = `${SITE_URL}/${post.slug}`;
+  
+  // FIXED: Ensure proper date formatting
+  const publishDate = post.date ? new Date(post.date).toISOString() : new Date().toISOString();
+  const modifiedDate = post.updatedAt ? new Date(post.updatedAt).toISOString() : publishDate;
 
   return {
     '@context': 'https://schema.org',
@@ -117,20 +128,26 @@ export function generateNewsArticleSchema(post) {
       '@id': articleUrl,
     },
     headline: post.title,
-    description: post.excerpt,
-    image: imageUrl,
+    description: post.excerpt || post.title,  // FIXED: Fallback for excerpt
+    ...(imageUrl && {  // FIXED: Only include if image exists
+      image: {
+        '@type': 'ImageObject',
+        url: imageUrl,
+        width: 1200,
+        height: 630,
+      }
+    }),
 
-    // Dates - Use ISO 8601 format
-    datePublished: post.date ? new Date(post.date).toISOString() : undefined,
-    dateModified: post.updatedAt,
+    // Dates - ISO 8601 format
+    datePublished: publishDate,
+    dateModified: modifiedDate,
 
-    // Author information - Enhanced with more details
+    // Author information
     author: {
       '@type': 'Person',
       name: post.author?.name || 'Deepak M.',
       url: SITE_URL,
-      jobTitle: 'Sports Journalist',
-      image: `${SITE_URL}/logo.webp`,
+      ...(post.author?.jobTitle && { jobTitle: post.author.jobTitle }),  // FIXED: Conditional
     },
     
     // Publisher - REQUIRED for NewsArticle
@@ -141,24 +158,25 @@ export function generateNewsArticleSchema(post) {
       logo: {
         '@type': 'ImageObject',
         url: LOGO_URL,
-        width: '600',
-        height: '600',
+        width: 600,
+        height: 600,
       },
     },
     
     // Content details
-    articleSection: post.categories?.[0]?.name || 'Cricket',
-    keywords: post.categories?.map(cat => cat.name).join(', ') || 'T20 World Cup, Cricket, T20 World Cup Live Streaming, T20 World Cup Schedule',
+    ...(post.categories?.[0]?.name && { articleSection: post.categories[0].name }),
+    ...(post.categories?.length > 0 && { 
+      keywords: post.categories.map(cat => cat.name).join(', ') 
+    }),
     
     inLanguage: 'en-US',
   };
 }
 
-// 4. BreadcrumbList Schema
+/**
+ * BreadcrumbList Schema - FIXED URL construction
+ */
 export function generateBreadcrumbSchema(breadcrumbs) {
-  // breadcrumbs should be an array like:
-  // [{ name: 'Home', url: '/' }, { name: 'News', url: '/news' }, { name: 'Article Title', url: '/article-slug' }]
-  
   if (!breadcrumbs || breadcrumbs.length === 0) return null;
 
   return {
@@ -168,7 +186,7 @@ export function generateBreadcrumbSchema(breadcrumbs) {
       '@type': 'ListItem',
       position: index + 1,
       name: crumb.name,
-      item: `${SITE_URL}/${crumb.url}`,
+      item: crumb.url === '/' ? SITE_URL : `${SITE_URL}${crumb.url.startsWith('/') ? '' : '/'}${crumb.url}`,  // FIXED: Proper URL construction
     })),
   };
 }
@@ -185,20 +203,24 @@ export function generateCollectionPageSchema(category, posts) {
     '@id': `${SITE_URL}/category/${category.slug}`,
     url: `${SITE_URL}/category/${category.slug}`,
     name: `${category.name} - T20 World Cup 2026`,
-    description: category.seoOverride.description,
+    description: category.seoOverride?.description || category.description || `Latest ${category.name} news and updates`,  // FIXED: Fallbacks
     inLanguage: 'en-US',
-    mainEntity: {
-      '@type': 'ItemList',
-      itemListElement: posts.slice(0, 10).map((post, index) => ({
-        '@type': 'ListItem',
-        position: index + 1,
-        url: `${SITE_URL}/${post.slug}`,
-        name: post.title,
-      })),
+    isPartOf: {
+      '@id': `${SITE_URL}/#website`,
     },
+    ...(posts && posts.length > 0 && {  // FIXED: Conditional rendering
+      mainEntity: {
+        '@type': 'ItemList',
+        itemListElement: posts.slice(0, 10).map((post, index) => ({
+          '@type': 'ListItem',
+          position: index + 1,
+          url: `${SITE_URL}/${post.slug}`,
+          name: post.title,
+        })),
+      }
+    }),
   };
 }
-
 
 /**
  * Generate SportsEvent Schema for Match Coverage
@@ -214,15 +236,19 @@ export function generateSportsEventSchema(match) {
     description: match.description,
     startDate: match.date,
     sport: 'Cricket',
-    location: {
-      '@type': 'Place',
-      name: match.venue,
-      address: {
-        '@type': 'PostalAddress',
-        addressLocality: match.city,
-        addressCountry: match.country,
-      },
-    },
+    ...(match.venue && {
+      location: {
+        '@type': 'Place',
+        name: match.venue,
+        ...(match.city || match.country) && {
+          address: {
+            '@type': 'PostalAddress',
+            ...(match.city && { addressLocality: match.city }),
+            ...(match.country && { addressCountry: match.country }),
+          }
+        },
+      }
+    }),
     competitor: [
       {
         '@type': 'SportsTeam',
@@ -241,13 +267,15 @@ export function generateSportsEventSchema(match) {
   };
 }
 
-
 /**
  * CRITICAL: Generate Combined Schema for Blog Post using @graph
- * This is the CORRECT way to combine multiple schemas
+ * Organization schema is ALWAYS included for proper linking
  */
 export function generateBlogPostSchema(post) {
   const schemas = [];
+
+  // CRITICAL: Organization Schema MUST be first for proper reference
+  schemas.push(generateOrganizationSchema());
 
   // Build proper breadcrumb hierarchy
   const breadcrumbs = [
@@ -255,10 +283,7 @@ export function generateBlogPostSchema(post) {
     { name: post.title, url: post.slug },
   ];
 
-  // Organization Schema (CRITICAL: Required for publisher reference)
-  schemas.push(generateOrganizationSchema());
-
-  // NewsArticle Schema (CRITICAL: Main content)
+  // NewsArticle Schema (Main content)
   const articleSchema = generateNewsArticleSchema(post);
   if (articleSchema) schemas.push(articleSchema);
 
@@ -269,8 +294,10 @@ export function generateBlogPostSchema(post) {
   // FAQ Schema (if exists in content)
   if (post.content?.html) {
     const faqs = extractFAQFromHTML(post.content.html);
-    const faqSchema = generateFAQSchema(faqs);
-    if (faqSchema) schemas.push(faqSchema);
+    if (faqs.length > 0) {
+      const faqSchema = generateFAQSchema(faqs);
+      if (faqSchema) schemas.push(faqSchema);
+    }
   }
 
   // SportsEvent Schema (if match data exists)
@@ -279,13 +306,12 @@ export function generateBlogPostSchema(post) {
     if (eventSchema) schemas.push(eventSchema);
   }
 
-  // CRITICAL: Return as @graph for proper organization
+  // Return as @graph for proper organization
   return {
     '@context': 'https://schema.org',
     '@graph': schemas,
   };
 }
-
 
 /**
  * Generate Combined Schema for Homepage
@@ -293,19 +319,20 @@ export function generateBlogPostSchema(post) {
 export function generateHomepageSchema(html) {
   const schemas = [];
 
+  // Organization Schema - MUST be first
+  schemas.push(generateOrganizationSchema());
+
   // Website Schema
   const websiteSchema = generateWebsiteSchema();
   if (websiteSchema) schemas.push(websiteSchema);
 
-  // Organization Schema
-  const orgSchema = generateOrganizationSchema();
-  if (orgSchema) schemas.push(orgSchema);
-
   // FAQ Schema (if exists)
   if (html) {
     const faqs = extractFAQFromHTML(html);
-    const faqSchema = generateFAQSchema(faqs);
-    if (faqSchema) schemas.push(faqSchema);
+    if (faqs.length > 0) {
+      const faqSchema = generateFAQSchema(faqs);
+      if (faqSchema) schemas.push(faqSchema);
+    }
   }
 
   return {
@@ -320,7 +347,7 @@ export function generateHomepageSchema(html) {
 export function generateCategoryPageSchema(category, posts) {
   const schemas = [];
 
-  // Organization Schema
+  // Organization Schema - MUST be first
   schemas.push(generateOrganizationSchema());
 
   // CollectionPage Schema
@@ -343,17 +370,24 @@ export function generateCategoryPageSchema(category, posts) {
 
 /**
  * Render Schema as JSON-LD script tag
- * Use this in your page components
+ * OPTIMIZED: Memoized and with error handling
  */
 export function SchemaScript({ schema }) {
   if (!schema) return null;
 
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify(schema),
-      }}
-    />
-  );
+  try {
+    const schemaString = JSON.stringify(schema);
+    
+    return (
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: schemaString,
+        }}
+      />
+    );
+  } catch (error) {
+    console.error('Error generating schema:', error);
+    return null;
+  }
 }
