@@ -55,8 +55,7 @@ export function generateFAQSchema(faqs) {
 }
 
 /**
- * Organization Schema - FIXED for proper visibility
- * This should be included on EVERY page
+ * Organization Schema - This will be included in every page's @graph
  */
 export function generateOrganizationSchema() {
   return {
@@ -70,7 +69,7 @@ export function generateOrganizationSchema() {
       '@id': `${SITE_URL}/#logo`,
       url: LOGO_URL,
       contentUrl: LOGO_URL,
-      width: 600,  // FIXED: Remove quotes from numbers
+      width: 600,
       height: 600,
       caption: SITE_NAME,
     },
@@ -107,7 +106,7 @@ export function generateWebsiteSchema() {
 }
 
 /**
- * Enhanced NewsArticle Schema - FIXED multiple issues
+ * Enhanced NewsArticle Schema
  */
 export function generateNewsArticleSchema(post) {
   if (!post) return null;
@@ -115,7 +114,6 @@ export function generateNewsArticleSchema(post) {
   const imageUrl = post.coverImage?.url;
   const articleUrl = `${SITE_URL}/${post.slug}`;
   
-  // FIXED: Ensure proper date formatting
   const publishDate = post.date ? new Date(post.date).toISOString() : new Date().toISOString();
   const modifiedDate = post.updatedAt ? new Date(post.updatedAt).toISOString() : publishDate;
 
@@ -128,8 +126,8 @@ export function generateNewsArticleSchema(post) {
       '@id': articleUrl,
     },
     headline: post.title,
-    description: post.excerpt || post.title,  // FIXED: Fallback for excerpt
-    ...(imageUrl && {  // FIXED: Only include if image exists
+    description: post.excerpt || post.title,
+    ...(imageUrl && {
       image: {
         '@type': 'ImageObject',
         url: imageUrl,
@@ -138,19 +136,16 @@ export function generateNewsArticleSchema(post) {
       }
     }),
 
-    // Dates - ISO 8601 format
     datePublished: publishDate,
     dateModified: modifiedDate,
 
-    // Author information
     author: {
       '@type': 'Person',
       name: post.author?.name || 'Deepak M.',
       url: SITE_URL,
-      ...(post.author?.jobTitle && { jobTitle: post.author.jobTitle }),  // FIXED: Conditional
+      ...(post.author?.jobTitle && { jobTitle: post.author.jobTitle }),
     },
     
-    // Publisher - REQUIRED for NewsArticle
     publisher: {
       '@type': 'Organization',
       '@id': `${SITE_URL}/#organization`,
@@ -163,7 +158,6 @@ export function generateNewsArticleSchema(post) {
       },
     },
     
-    // Content details
     ...(post.categories?.[0]?.name && { articleSection: post.categories[0].name }),
     ...(post.categories?.length > 0 && { 
       keywords: post.categories.map(cat => cat.name).join(', ') 
@@ -174,7 +168,7 @@ export function generateNewsArticleSchema(post) {
 }
 
 /**
- * BreadcrumbList Schema - FIXED URL construction
+ * BreadcrumbList Schema
  */
 export function generateBreadcrumbSchema(breadcrumbs) {
   if (!breadcrumbs || breadcrumbs.length === 0) return null;
@@ -186,7 +180,7 @@ export function generateBreadcrumbSchema(breadcrumbs) {
       '@type': 'ListItem',
       position: index + 1,
       name: crumb.name,
-      item: crumb.url === '/' ? SITE_URL : `${SITE_URL}${crumb.url.startsWith('/') ? '' : '/'}${crumb.url}`,  // FIXED: Proper URL construction
+      item: crumb.url === '/' ? SITE_URL : `${SITE_URL}${crumb.url.startsWith('/') ? '' : '/'}${crumb.url}`,
     })),
   };
 }
@@ -203,12 +197,12 @@ export function generateCollectionPageSchema(category, posts) {
     '@id': `${SITE_URL}/category/${category.slug}`,
     url: `${SITE_URL}/category/${category.slug}`,
     name: `${category.name} - T20 World Cup 2026`,
-    description: category.seoOverride?.description || category.description || `Latest ${category.name} news and updates`,  // FIXED: Fallbacks
+    description: category.seoOverride?.description || category.description || `Latest ${category.name} news and updates`,
     inLanguage: 'en-US',
     isPartOf: {
       '@id': `${SITE_URL}/#website`,
     },
-    ...(posts && posts.length > 0 && {  // FIXED: Conditional rendering
+    ...(posts && posts.length > 0 && {
       mainEntity: {
         '@type': 'ItemList',
         itemListElement: posts.slice(0, 10).map((post, index) => ({
@@ -268,13 +262,13 @@ export function generateSportsEventSchema(match) {
 }
 
 /**
- * CRITICAL: Generate Combined Schema for Blog Post using @graph
- * Organization schema is ALWAYS included for proper linking
+ * Generate Combined Schema for Blog Post using @graph
+ * Organization schema is ALWAYS included first
  */
 export function generateBlogPostSchema(post) {
   const schemas = [];
 
-  // CRITICAL: Organization Schema MUST be first for proper reference
+  // ALWAYS add Organization schema first on every page
   schemas.push(generateOrganizationSchema());
 
   // Build proper breadcrumb hierarchy
@@ -306,7 +300,6 @@ export function generateBlogPostSchema(post) {
     if (eventSchema) schemas.push(eventSchema);
   }
 
-  // Return as @graph for proper organization
   return {
     '@context': 'https://schema.org',
     '@graph': schemas,
@@ -315,11 +308,12 @@ export function generateBlogPostSchema(post) {
 
 /**
  * Generate Combined Schema for Homepage
+ * Organization schema is ALWAYS included first
  */
 export function generateHomepageSchema(html) {
   const schemas = [];
 
-  // Organization Schema - MUST be first
+  // ALWAYS add Organization schema first on every page
   schemas.push(generateOrganizationSchema());
 
   // Website Schema
@@ -343,11 +337,12 @@ export function generateHomepageSchema(html) {
 
 /**
  * Generate Combined Schema for Category Page
+ * Organization schema is ALWAYS included first
  */
 export function generateCategoryPageSchema(category, posts) {
   const schemas = [];
 
-  // Organization Schema - MUST be first
+  // ALWAYS add Organization schema first on every page
   schemas.push(generateOrganizationSchema());
 
   // CollectionPage Schema
@@ -370,7 +365,6 @@ export function generateCategoryPageSchema(category, posts) {
 
 /**
  * Render Schema as JSON-LD script tag
- * OPTIMIZED: Memoized and with error handling
  */
 export function SchemaScript({ schema }) {
   if (!schema) return null;
