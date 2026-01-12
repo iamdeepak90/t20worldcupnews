@@ -58,17 +58,14 @@ export default async function SearchPage({ searchParams }) {
             />
           </div>
           <div className="post-body">
-            <div
-              style={{
-                alignItems: "center",
-                display: "flex",
-                flexWrap: "wrap",
-                gap: "10px",
-                justifyContent: "space-between",
-              }}>
-              {post.categories.map((cat) => (
-                <span key={cat.name} className="badge">{cat.name}</span>
-              ))}
+            <div className="row-between">
+              <div className="badge-row">
+                {(post.categories ?? []).map((cat) => (
+                  <span key={cat.name} className="badge">
+                    {cat.name}
+                  </span>
+                ))}
+              </div>
               <span className="meta">{formatDate(post.date)}</span>
             </div>
             <div className="post-title">
