@@ -51,6 +51,8 @@ const POST_BY_SLUG_QUERY = `
       coverImage {
         url
         altText
+        width
+        height
       }
       author {
         name

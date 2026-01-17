@@ -15,7 +15,6 @@ export default async function Header() {
           <nav className="nav" aria-label="Primary">
             <Link className="nav-link" href="/t20-world-cup-schedule-list">Schedule</Link>
             <Link className="nav-link" href="/ticket-booking-online">Tickets</Link>
-            <Link className="nav-link" href="/">Live Score</Link>
             <Link className="nav-link" href="/points-table-standings-nrr">Points Table</Link>
 
             <div className="nav-dropdown">
@@ -42,6 +41,7 @@ export default async function Header() {
               </div>
             </div>
 
+            <Link className="nav-link" href="/posts">Blog</Link>
             <Link className="nav-link" href="/category/news">News</Link>
           </nav>
           <form className="nav-search" action="/search" method="get" role="search">

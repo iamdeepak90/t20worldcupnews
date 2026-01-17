@@ -6,7 +6,7 @@ import postsimg from "@/images/T20 World Cup 2026 Latest News.webp";
 import LoadMorePosts from "@/components/LoadMorePosts";
 
 export const metadata = generateSEO({
-  title: "Latest Cricket News & Updates",
+  title: "ICC T20 World Cup Latest News & Score Updates",
   description: "Read the latest articles, match previews, post-match analysis, and breaking news stories covering the 2026 T20 World Cup. Stay updated with daily cricket insights.",
   url: "/posts",
   image: postsimg.src,

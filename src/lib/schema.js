@@ -112,6 +112,8 @@ export function generateNewsArticleSchema(post) {
   if (!post) return null;
 
   const imageUrl = post.coverImage?.url;
+  const imageW = post.coverImage?.width;
+  const imageH = post.coverImage?.height;
   const articleUrl = `${SITE_URL}/${post.slug}`;
   
   const publishDate = post.date ? new Date(post.date).toISOString() : new Date().toISOString();
@@ -131,8 +133,8 @@ export function generateNewsArticleSchema(post) {
       image: {
         '@type': 'ImageObject',
         url: imageUrl,
-        width: 1200,
-        height: 630,
+        width: imageW,
+        height: imageH,
       }
     }),
 
