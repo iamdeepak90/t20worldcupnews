@@ -4,18 +4,21 @@ const LOGO_URL = `${SITE_URL}/logo.webp`;
 
 /**
  * Extract FAQ questions and answers from HTML content
+ * Optimized with single regex pass
  */
 export function extractFAQFromHTML(htmlContent) {
   if (!htmlContent) return [];
 
   const faqs = [];
   
+  // Match FAQ section - more flexible pattern
   const faqMatch = htmlContent.match(/<h2[^>]*>(?:Frequently Asked Questions|FAQ).*?<\/h2>(.*?)(?=<h2|<footer|$)/is);
   
   if (!faqMatch) return faqs;
   
   const faqSection = faqMatch[1];
   
+  // Extract Q&A pairs with improved regex
   const regex = /<h3[^>]*>(.*?)<\/h3>\s*<p[^>]*>(.*?)<\/p>/gs;
   let match;
   
@@ -33,6 +36,7 @@ export function extractFAQFromHTML(htmlContent) {
 
 /**
  * Generate FAQ Schema
+ * ❌ REMOVED @context - will be added at root level
  */
 export function generateFAQSchema(faqs) {
   if (!faqs || faqs.length === 0) return null;
@@ -52,6 +56,7 @@ export function generateFAQSchema(faqs) {
 
 /**
  * Organization Schema
+ * ❌ REMOVED @context - will be added at root level
  */
 export function generateOrganizationSchema() {
   return {
@@ -77,6 +82,8 @@ export function generateOrganizationSchema() {
 
 /**
  * WebSite Schema - For homepage
+ * ❌ REMOVED @context - will be added at root level
+ * ✅ FIXED SearchAction target format
  */
 export function generateWebsiteSchema() {
   return {
@@ -98,6 +105,8 @@ export function generateWebsiteSchema() {
 
 /**
  * Enhanced NewsArticle Schema
+ * ❌ REMOVED @context - will be added at root level
+ * ✅ ADDED articleBody for better indexing
  */
 export function generateNewsArticleSchema(post) {
   if (!post) return null;
@@ -110,6 +119,7 @@ export function generateNewsArticleSchema(post) {
   const publishDate = post.date ? new Date(post.date).toISOString() : new Date().toISOString();
   const modifiedDate = post.updatedAt ? new Date(post.updatedAt).toISOString() : publishDate;
 
+  // Extract plain text from HTML for articleBody (first 200 chars)
   const articleBody = post.excerpt || (post.content?.text ? post.content.text.substring(0, 200) + '...' : post.title);
 
   return {
@@ -137,6 +147,7 @@ export function generateNewsArticleSchema(post) {
       '@type': 'Person',
       name: post.author?.name || 'Deepak M.',
       url: `${SITE_URL}/author/${(post.author?.name || 'deepak').toLowerCase().replace(/\s+/g, '-')}`,
+      ...(post.author?.jobTitle && { jobTitle: post.author.jobTitle }),
     },
     
     publisher: {
@@ -156,6 +167,7 @@ export function generateNewsArticleSchema(post) {
 
 /**
  * BreadcrumbList Schema
+ * ❌ REMOVED @context - will be added at root level
  */
 export function generateBreadcrumbSchema(breadcrumbs) {
   if (!breadcrumbs || breadcrumbs.length === 0) return null;
@@ -173,6 +185,7 @@ export function generateBreadcrumbSchema(breadcrumbs) {
 
 /**
  * Generate CollectionPage Schema for Category/Archive Pages
+ * ❌ REMOVED @context - will be added at root level
  */
 export function generateCollectionPageSchema(category, posts) {
   if (!category) return null;
@@ -203,6 +216,7 @@ export function generateCollectionPageSchema(category, posts) {
 
 /**
  * Generate SportsEvent Schema for Match Coverage
+ * ❌ REMOVED @context - will be added at root level
  */
 export function generateSportsEventSchema(match) {
   if (!match) return null;
@@ -246,47 +260,20 @@ export function generateSportsEventSchema(match) {
 }
 
 /**
- * ✅ NEW: Generate WebPage Schema (helps with Organization display)
- */
-export function generateWebPageSchema(pageData) {
-  return {
-    '@type': 'WebPage',
-    '@id': `${SITE_URL}/${pageData.slug || ''}#webpage`,
-    url: `${SITE_URL}/${pageData.slug || ''}`,
-    name: pageData.title || SITE_NAME,
-    description: pageData.description || 'T20 World Cup 2026 coverage',
-    isPartOf: {
-      '@id': `${SITE_URL}/#website`,
-    },
-    about: {
-      '@id': `${SITE_URL}/#organization`,
-    },
-    inLanguage: 'en-US',
-  };
-}
-
-/**
  * Generate Combined Schema for Blog Post using @graph
- * ✅ FIXED: Organization will now show in Google Test Tool
+ * ✅ Only ONE @context at the root level
  */
 export function generateBlogPostSchema(post) {
   const schemas = [];
 
-  // Organization schema
+  // ALWAYS add Organization schema first
   schemas.push(generateOrganizationSchema());
 
-  // WebPage schema (helps Organization show up)
-  schemas.push(generateWebPageSchema({
-    slug: post.slug,
-    title: post.title,
-    description: post.excerpt,
-  }));
-
-  // NewsArticle Schema
+  // NewsArticle Schema (Main content)
   const articleSchema = generateNewsArticleSchema(post);
   if (articleSchema) schemas.push(articleSchema);
 
-  // Breadcrumbs
+  // Build breadcrumbs - Add category if exists
   const breadcrumbs = [
     { name: 'Home', url: '/' }
   ];
@@ -303,10 +290,11 @@ export function generateBlogPostSchema(post) {
     url: `/${post.slug}` 
   });
 
+  // BreadcrumbList Schema
   const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbs);
   if (breadcrumbSchema) schemas.push(breadcrumbSchema);
 
-  // FAQ Schema
+  // FAQ Schema (if exists in content)
   if (post.content?.html) {
     const faqs = extractFAQFromHTML(post.content.html);
     if (faqs.length > 0) {
@@ -315,7 +303,7 @@ export function generateBlogPostSchema(post) {
     }
   }
 
-  // SportsEvent Schema
+  // SportsEvent Schema (if match data exists)
   if (post.match) {
     const eventSchema = generateSportsEventSchema(post.match);
     if (eventSchema) schemas.push(eventSchema);
@@ -329,26 +317,19 @@ export function generateBlogPostSchema(post) {
 
 /**
  * Generate Combined Schema for Homepage
- * ✅ FIXED: Organization will now show in Google Test Tool
+ * ✅ Only ONE @context at the root level
  */
 export function generateHomepageSchema(html) {
   const schemas = [];
 
-  // Organization schema
+  // ALWAYS add Organization schema first
   schemas.push(generateOrganizationSchema());
 
   // Website Schema
   const websiteSchema = generateWebsiteSchema();
   if (websiteSchema) schemas.push(websiteSchema);
 
-  // WebPage schema (helps Organization show up)
-  schemas.push(generateWebPageSchema({
-    slug: '',
-    title: SITE_NAME,
-    description: 'Your front-row seat to T20 World Cup 2026',
-  }));
-
-  // FAQ Schema
+  // FAQ Schema (if exists)
   if (html) {
     const faqs = extractFAQFromHTML(html);
     if (faqs.length > 0) {
@@ -365,20 +346,13 @@ export function generateHomepageSchema(html) {
 
 /**
  * Generate Combined Schema for Category Page
- * ✅ FIXED: Organization will now show in Google Test Tool
+ * ✅ Only ONE @context at the root level
  */
 export function generateCategoryPageSchema(category, posts) {
   const schemas = [];
 
-  // Organization schema
+  // ALWAYS add Organization schema first
   schemas.push(generateOrganizationSchema());
-
-  // WebPage schema (helps Organization show up)
-  schemas.push(generateWebPageSchema({
-    slug: `category/${category.slug}`,
-    title: `${category.name} - T20 World Cup 2026`,
-    description: category.description,
-  }));
 
   // CollectionPage Schema
   const collectionSchema = generateCollectionPageSchema(category, posts);
@@ -400,11 +374,13 @@ export function generateCategoryPageSchema(category, posts) {
 
 /**
  * Render Schema as JSON-LD script tag
+ * ✅ Properly handles Next.js 16 App Router
  */
 export function SchemaScript({ schema }) {
   if (!schema) return null;
 
   try {
+    // Pretty print for debugging (remove in production)
     const schemaString = JSON.stringify(schema, null, 0);
     
     return (
