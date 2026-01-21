@@ -36,12 +36,12 @@ export function extractFAQFromHTML(htmlContent) {
 
 /**
  * Generate FAQ Schema
- * ❌ REMOVED @context - will be added at root level
  */
 export function generateFAQSchema(faqs) {
   if (!faqs || faqs.length === 0) return null;
 
   return {
+    '@context': 'https://schema.org',
     '@type': 'FAQPage',
     mainEntity: faqs.map(faq => ({
       '@type': 'Question',
@@ -55,11 +55,11 @@ export function generateFAQSchema(faqs) {
 }
 
 /**
- * Organization Schema
- * ❌ REMOVED @context - will be added at root level
+ * Organization Schema - This will be included in every page's @graph
  */
 export function generateOrganizationSchema() {
   return {
+    '@context': 'https://schema.org',
     '@type': 'Organization',
     '@id': `${SITE_URL}/#organization`,
     name: SITE_NAME,
@@ -82,11 +82,10 @@ export function generateOrganizationSchema() {
 
 /**
  * WebSite Schema - For homepage
- * ❌ REMOVED @context - will be added at root level
- * ✅ FIXED SearchAction target format
  */
 export function generateWebsiteSchema() {
   return {
+    '@context': 'https://schema.org',
     '@type': 'WebSite',
     '@id': `${SITE_URL}/#website`,
     url: SITE_URL,
@@ -97,7 +96,10 @@ export function generateWebsiteSchema() {
     },
     potentialAction: {
       '@type': 'SearchAction',
-      target: `${SITE_URL}/search?q={search_term_string}`,
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${SITE_URL}/search?q={search_term_string}`,
+      },
       'query-input': 'required name=search_term_string',
     },
   };
@@ -105,26 +107,22 @@ export function generateWebsiteSchema() {
 
 /**
  * Enhanced NewsArticle Schema
- * ❌ REMOVED @context - will be added at root level
- * ✅ ADDED articleBody for better indexing
  */
 export function generateNewsArticleSchema(post) {
   if (!post) return null;
 
   const imageUrl = post.coverImage?.url;
-  const imageW = post.coverImage?.width || 1200;
-  const imageH = post.coverImage?.height || 630;
+  const imageW = post.coverImage?.width;
+  const imageH = post.coverImage?.height;
   const articleUrl = `${SITE_URL}/${post.slug}`;
   
   const publishDate = post.date ? new Date(post.date).toISOString() : new Date().toISOString();
   const modifiedDate = post.updatedAt ? new Date(post.updatedAt).toISOString() : publishDate;
 
-  // Extract plain text from HTML for articleBody (first 200 chars)
-  const articleBody = post.excerpt || (post.content?.text ? post.content.text.substring(0, 200) + '...' : post.title);
-
   return {
+    '@context': 'https://schema.org',
     '@type': 'NewsArticle',
-    '@id': `${articleUrl}#article`,
+    '@id': articleUrl,
     mainEntityOfPage: {
       '@type': 'WebPage',
       '@id': articleUrl,
@@ -146,12 +144,20 @@ export function generateNewsArticleSchema(post) {
     author: {
       '@type': 'Person',
       name: post.author?.name || 'Deepak M.',
-      url: `${SITE_URL}/author/${(post.author?.name || 'deepak').toLowerCase().replace(/\s+/g, '-')}`,
+      url: SITE_URL,
       ...(post.author?.jobTitle && { jobTitle: post.author.jobTitle }),
     },
     
     publisher: {
+      '@type': 'Organization',
       '@id': `${SITE_URL}/#organization`,
+      name: SITE_NAME,
+      logo: {
+        '@type': 'ImageObject',
+        url: LOGO_URL,
+        width: 600,
+        height: 600,
+      },
     },
     
     ...(post.categories?.[0]?.name && { articleSection: post.categories[0].name }),
@@ -159,20 +165,18 @@ export function generateNewsArticleSchema(post) {
       keywords: post.categories.map(cat => cat.name).join(', ') 
     }),
     
-    articleBody: articleBody,
     inLanguage: 'en-US',
-    isAccessibleForFree: true,
   };
 }
 
 /**
  * BreadcrumbList Schema
- * ❌ REMOVED @context - will be added at root level
  */
 export function generateBreadcrumbSchema(breadcrumbs) {
   if (!breadcrumbs || breadcrumbs.length === 0) return null;
 
   return {
+    '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: breadcrumbs.map((crumb, index) => ({
       '@type': 'ListItem',
@@ -185,14 +189,14 @@ export function generateBreadcrumbSchema(breadcrumbs) {
 
 /**
  * Generate CollectionPage Schema for Category/Archive Pages
- * ❌ REMOVED @context - will be added at root level
  */
 export function generateCollectionPageSchema(category, posts) {
   if (!category) return null;
 
   return {
+    '@context': 'https://schema.org',
     '@type': 'CollectionPage',
-    '@id': `${SITE_URL}/category/${category.slug}#collection`,
+    '@id': `${SITE_URL}/category/${category.slug}`,
     url: `${SITE_URL}/category/${category.slug}`,
     name: `${category.name} - T20 World Cup 2026`,
     description: category.seoOverride?.description || category.description || `Latest ${category.name} news and updates`,
@@ -216,14 +220,14 @@ export function generateCollectionPageSchema(category, posts) {
 
 /**
  * Generate SportsEvent Schema for Match Coverage
- * ❌ REMOVED @context - will be added at root level
  */
 export function generateSportsEventSchema(match) {
   if (!match) return null;
 
   return {
+    '@context': 'https://schema.org',
     '@type': 'SportsEvent',
-    '@id': `${match.url}#event`,
+    '@id': match.url,
     name: `${match.team1} vs ${match.team2} - T20 World Cup 2026`,
     description: match.description,
     startDate: match.date,
@@ -232,13 +236,13 @@ export function generateSportsEventSchema(match) {
       location: {
         '@type': 'Place',
         name: match.venue,
-        ...((match.city || match.country) && {
+        ...(match.city || match.country) && {
           address: {
             '@type': 'PostalAddress',
             ...(match.city && { addressLocality: match.city }),
             ...(match.country && { addressCountry: match.country }),
           }
-        }),
+        },
       }
     }),
     competitor: [
@@ -261,34 +265,23 @@ export function generateSportsEventSchema(match) {
 
 /**
  * Generate Combined Schema for Blog Post using @graph
- * ✅ Only ONE @context at the root level
+ * Organization schema is ALWAYS included first
  */
 export function generateBlogPostSchema(post) {
   const schemas = [];
 
-  // ALWAYS add Organization schema first
+  // ALWAYS add Organization schema first on every page
   schemas.push(generateOrganizationSchema());
+
+  // Build proper breadcrumb hierarchy
+  const breadcrumbs = [
+    { name: 'Home', url: '/' },
+    { name: post.title, url: post.slug },
+  ];
 
   // NewsArticle Schema (Main content)
   const articleSchema = generateNewsArticleSchema(post);
   if (articleSchema) schemas.push(articleSchema);
-
-  // Build breadcrumbs - Add category if exists
-  const breadcrumbs = [
-    { name: 'Home', url: '/' }
-  ];
-  
-  if (post.categories && post.categories.length > 0) {
-    breadcrumbs.push({ 
-      name: post.categories[0].name, 
-      url: `/category/${post.categories[0].slug}` 
-    });
-  }
-  
-  breadcrumbs.push({ 
-    name: post.title, 
-    url: `/${post.slug}` 
-  });
 
   // BreadcrumbList Schema
   const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbs);
@@ -317,12 +310,12 @@ export function generateBlogPostSchema(post) {
 
 /**
  * Generate Combined Schema for Homepage
- * ✅ Only ONE @context at the root level
+ * Organization schema is ALWAYS included first
  */
 export function generateHomepageSchema(html) {
   const schemas = [];
 
-  // ALWAYS add Organization schema first
+  // ALWAYS add Organization schema first on every page
   schemas.push(generateOrganizationSchema());
 
   // Website Schema
@@ -346,12 +339,12 @@ export function generateHomepageSchema(html) {
 
 /**
  * Generate Combined Schema for Category Page
- * ✅ Only ONE @context at the root level
+ * Organization schema is ALWAYS included first
  */
 export function generateCategoryPageSchema(category, posts) {
   const schemas = [];
 
-  // ALWAYS add Organization schema first
+  // ALWAYS add Organization schema first on every page
   schemas.push(generateOrganizationSchema());
 
   // CollectionPage Schema
@@ -374,14 +367,12 @@ export function generateCategoryPageSchema(category, posts) {
 
 /**
  * Render Schema as JSON-LD script tag
- * ✅ Properly handles Next.js 16 App Router
  */
 export function SchemaScript({ schema }) {
   if (!schema) return null;
 
   try {
-    // Pretty print for debugging (remove in production)
-    const schemaString = JSON.stringify(schema, null, 0);
+    const schemaString = JSON.stringify(schema);
     
     return (
       <script
